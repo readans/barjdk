@@ -1,0 +1,11 @@
+services:
+  inventory-web:
+    container_name: inventory-web
+    image: inventory-web:1.0
+    ports:
+      - "3000:80"
+  inventory-services:
+    container_name: inventory-services
+    image: inventory-services:1.0
+    ports:
+      - "8080:8080"
