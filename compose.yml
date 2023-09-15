@@ -1,11 +1,23 @@
 services:
-  inventory-web:
-    container_name: inventory-web
+  barjdk-web:
+    container_name: barjdk-web
     image: inventory-web:1.0
     ports:
       - "3000:80"
-  inventory-services:
-    container_name: inventory-services
+  barjdk-services:
+    container_name: barjdk-services
+    depends_on:
+      - barjdk-db
     image: inventory-services:1.0
     ports:
       - "8080:8080"
+  barjdk-db:
+    container_name: barjdk-db
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: barjdk
+      MYSQL_USER: dylan
+      MYSQL_PASSWORD: 1234
+    ports:
+      - "3306:3306"
