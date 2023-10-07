@@ -9,14 +9,17 @@ import lombok.Data;
 public class ProductoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "PK_PAGO_ID")
+    @Column(name = "PK_PRODUCTO_ID")
     private Integer pkPagoId;
 
-    @Column(name = "FK_PEDIDO_ID")
-    private Integer fkPedidoId;
+    @Column(name = "DESCRIPCION")
+    private String descripcion;
 
     @Column(name = "VALOR")
     private Integer valor;
+
+    @Column(name = "CANTIDAD")
+    private Integer cantidad;
 }
 
 
