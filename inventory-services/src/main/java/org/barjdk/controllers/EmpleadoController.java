@@ -26,8 +26,17 @@ public class EmpleadoController {
         empleadoService.insertarEmpleado(empleadoEntity);
     }
 
-    @PostMapping(path = "/login")
-    public boolean login(@RequestBody EmpleadoEntity empleadoEntity) {
-        return empleadoService.autenticarUsuario(empleadoEntity.getNombre(), empleadoEntity.getDocumento());
+    @PostMapping(path = "/verificar")
+    public EmpleadoEntity verificarEmpleado(@RequestBody EmpleadoEntity empleadoEntity) {
+        // Verificar si el nombre y documento ya existen
+        EmpleadoEntity empleado = empleadoService.obtenerEmpleado(empleadoEntity.getNombre(), empleadoEntity.getDocumento());
+
+        if (empleado != null) {
+            log.info("Empleado encontrado en la base de datos.");
+            return empleado;
+        } else {
+            log.warn("El empleado no existe en la base de datos.");
+            return null;
+        }
     }
 }
