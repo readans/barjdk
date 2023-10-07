@@ -22,9 +22,8 @@ public class EmpleadoImplement implements EmpleadoService {
         empleadoRepository.save(empleadoEntity);
     }
 
-    @Override
-    public boolean autenticarUsuario(String nombre, Integer documento) {
-        EmpleadoEntity empleado = empleadoRepository.findByNombreAndDocumento(nombre, documento);
-        return empleado != null;
+    public EmpleadoEntity obtenerEmpleado(String nombre, Integer documento) {
+        return empleadoRepository.findByNombreAndDocumento(nombre, documento);
     }
+
 }
