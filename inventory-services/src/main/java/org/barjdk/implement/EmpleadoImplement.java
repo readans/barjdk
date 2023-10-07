@@ -1,7 +1,6 @@
 package org.barjdk.implement;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.logging.Log;
 import org.barjdk.entity.EmpleadoEntity;
 import org.barjdk.repository.EmpleadoRepository;
 import org.barjdk.service.EmpleadoService;
