@@ -1,7 +1,7 @@
-function Alert({ type, content }) {
+function Alert({ type, content, onClick }) {
   const mapType = {
     info: {
-      style: "border-blue-700 text-blue-700 bg-blue-200/40",
+      style: "border-blue-700 text-blue-700 bg-blue-200",
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -26,6 +26,7 @@ function Alert({ type, content }) {
   return (
     <div
       className={`border ${propsType.style} rounded-md shadow-sm py-3 px-5 flex items-center gap-x-2 w-[300px] select-none animate-slideDown`}
+      onClick={() => onClick()}
     >
       {propsType.icon}
       <h2 className="text-black font-medium text-lg">{content}</h2>

@@ -2,24 +2,32 @@ import localforage from "localforage";
 import { useEffect, useRef, useState } from "react";
 import { Navigate } from "react-router-dom";
 import Modal from "../components/Modal";
+import Alert from "../components/Alert";
 
 export default function Login({ isAuthenticated, onLogin }) {
   const username = useRef();
   const password = useRef();
 
-  const authUser = (username, password) => {
-    // fetch()
+  const [error, setError] = useState(false);
 
-    onLogin({
-      documento: "1000161689",
-      nombre: "Dylan",
-      apellido: "Ariza",
-      rol: {
-        id: 2,
-        descripcion: "administrador",
+  const authUser = (username, password) => {
+    fetch("http://localhost:8080/empleado/verificar", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-      permissions: ["orders", "payments"],
-    });
+      body: JSON.stringify({
+        nombre: username,
+        documento: password,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        data.error == undefined
+          ? onLogin({ ...data, permissions: ["orders", "payments"] })
+          : setError(true);
+      })
+      .catch((e) => setError(true));
   };
 
   const [modal, setModal] = useState({ type: "default", visible: false });
@@ -27,6 +35,15 @@ export default function Login({ isAuthenticated, onLogin }) {
   return (
     <>
       {isAuthenticated && <Navigate to={"/"} />}
+      {error && (
+        <div className="absolute top-0 left-0 w-full flex justify-center mt-4 z-20">
+          <Alert
+            type={"info"}
+            content={"Credenciales inválidas"}
+            onClick={() => setError(false)}
+          />
+        </div>
+      )}
       {modal.visible && (
         <Modal hideModal={() => setModal({ ...modal, visible: false })}>
           {modal.type == "help" ? (
@@ -83,7 +100,7 @@ export default function Login({ isAuthenticated, onLogin }) {
       )}
       <div className="grid place-items-center min-h-screen">
         <div className="w-10/12 min-h-[90vh] bg-white rounded-xl shadow-lg flex overflow-hidden">
-          <div className="w-1/2 flex justify-center pt-28">
+          <div className="w-1/2 flex justify-center pt-28 z-10">
             <div className="w-full max-w-[365px] flex flex-col items-center">
               <h1 className="font-bold text-2xl leading-8">LOGIN</h1>
               <p className="leading-8 mb-2">Lorem ipsum dolor sit amet.</p>
@@ -97,7 +114,6 @@ export default function Login({ isAuthenticated, onLogin }) {
                   <input
                     type="text"
                     name="username"
-                    id=""
                     placeholder="username"
                     ref={username}
                     className="bg-transparent outline-none flex-1 text-stone-900"
@@ -113,7 +129,6 @@ export default function Login({ isAuthenticated, onLogin }) {
                   <input
                     type="password"
                     name="password"
-                    id=""
                     placeholder="password"
                     ref={password}
                     className="bg-transparent outline-none flex-1 text-stone-900"

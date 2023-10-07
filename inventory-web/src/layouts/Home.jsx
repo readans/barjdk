@@ -11,6 +11,10 @@ function Home() {
     fetch("http://localhost:8080/producto/consultar")
       .then((res) => res.json())
       .then((data) => setProductos(data));
+
+    fetch("http://localhost:8080/mesa/consultar")
+      .then((res) => res.json())
+      .then((data) => setMesas(data));
   }, []);
 
   return (
@@ -55,10 +59,8 @@ function Home() {
                 <Card
                   key={mesa.Id}
                   item={{
-                    title: mesa.descripcion,
-                    description: mesa.valor,
-                    qty: mesa.cantidad,
-                    state: "Disponible",
+                    title: `Mesa ${mesa.pkMesaId}`,
+                    state: mesa.estado == 1 ? "Disponible" : "Ocupada",
                   }}
                 />
               ))}

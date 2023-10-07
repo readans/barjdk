@@ -1,6 +1,7 @@
 import { NavLink, Outlet } from "react-router-dom";
 
 function Dashboard({ onLogout, user }) {
+  console.log(user);
   return (
     <>
       <nav className="fixed w-[220px] top-0 left-0 h-full bg-blue-900 text-white flex flex-col">
@@ -8,8 +9,8 @@ function Dashboard({ onLogout, user }) {
           <div className="w-28 bg-white rounded-full aspect-square grid place-items-center">
             <img src="/src/assets/icons/user.png" alt="" className="h-12" />
           </div>
-          <h1 className="mt-2 text-xl">John Doe</h1>
-          <h4 className="text-sm">Administrator</h4>
+          <h1 className="mt-2 text-xl">{`${user.nombre} ${user.apellido}`}</h1>
+          <h4 className="text-sm">Administrador</h4>
         </div>
         <ul className="flex-grow flex flex-col gap-y-1">
           <li>
