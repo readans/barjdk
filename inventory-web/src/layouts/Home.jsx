@@ -1,52 +1,67 @@
-import { NavLink } from "react-router-dom";
 import Card from "../components/Card";
 import { useEffect, useState } from "react";
+import Alert from "../components/Alert";
 
 function Home() {
   const [productos, setProductos] = useState([]);
+  const [mesas, setMesas] = useState([]);
+  const [selectOpt, setSelectOpt] = useState("productos");
 
   useEffect(() => {
     fetch("http://localhost:8080/producto/consultar")
       .then((res) => res.json())
-      .then((data) => console.log(data));
+      .then((data) => setProductos(data));
   }, []);
 
   return (
     <div className="flex justify-center">
       <div className="w-11/12">
-        <div className="flex gap-x-2 overflow-y-auto border-blue-900 border-b-2">
-          <NavLink
-            to={""}
-            className={({ isActive }) =>
-              `${
-                isActive ? "bg-blue-900 text-white" : "bg-white text-stone-800"
-              } w-[200px] flex items-center justify-center h-10 rounded-t-xl`
-            }
+        <ul className="flex gap-x-2 overflow-y-auto border-blue-900 border-b-2">
+          <li
+            className={`${
+              selectOpt == "productos"
+                ? "bg-blue-900 text-white"
+                : "bg-white text-stone-800"
+            } w-[200px] flex items-center justify-center h-10 rounded-t-xl cursor-pointer`}
+            onClick={() => setSelectOpt("productos")}
           >
             Productos
-          </NavLink>
-          <NavLink
-            to={"mesas"}
-            className={({ isActive }) =>
-              `${
-                isActive ? "bg-blue-900 text-white" : "bg-white text-stone-800"
-              } w-[200px] flex items-center justify-center h-10 rounded-t-xl`
-            }
+          </li>
+          <li
+            className={`${
+              selectOpt == "mesas"
+                ? "bg-blue-900 text-white"
+                : "bg-white text-stone-800"
+            } w-[200px] flex items-center justify-center h-10 rounded-t-xl cursor-pointer`}
+            onClick={() => setSelectOpt("mesas")}
           >
             Mesas
-          </NavLink>
-        </div>
+          </li>
+        </ul>
         <div className="grid grid-cols-2 gap-2 mt-4">
-          {productos.map((producto) => (
-            <Card
-              item={{
-                title: producto.pkPagoId,
-                description: producto.descripcion,
-                qty: producto.cantidad,
-                state: producto.valor,
-              }}
-            />
-          ))}
+          {selectOpt == "productos"
+            ? productos.map((producto) => (
+                <Card
+                  key={producto.pkPagoId}
+                  item={{
+                    title: producto.descripcion,
+                    description: producto.valor,
+                    qty: producto.cantidad,
+                    state: "Disponible",
+                  }}
+                />
+              ))
+            : mesas.map((mesa) => (
+                <Card
+                  key={mesa.Id}
+                  item={{
+                    title: mesa.descripcion,
+                    description: mesa.valor,
+                    qty: mesa.cantidad,
+                    state: "Disponible",
+                  }}
+                />
+              ))}
         </div>
       </div>
     </div>

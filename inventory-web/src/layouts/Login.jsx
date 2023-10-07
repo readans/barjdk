@@ -127,7 +127,7 @@ export default function Login({ isAuthenticated, onLogin }) {
                       authUser(username.current.value, password.current.value)
                     }
                   >
-                    Enviar
+                    Login
                   </button>
                 </div>
               </form>
