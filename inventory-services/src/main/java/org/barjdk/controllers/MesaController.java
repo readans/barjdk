@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/mesa")
-
+@CrossOrigin(origins = "*")
 public class MesaController {
 
     @Autowired

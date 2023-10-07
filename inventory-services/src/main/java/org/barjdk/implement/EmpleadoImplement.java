@@ -18,7 +18,13 @@ public class EmpleadoImplement implements EmpleadoService {
         this.empleadoRepository = empleadoRepository;
     }
 
-    public void insertarEmpleado(EmpleadoEntity empleadoEntity){
+    public void insertarEmpleado(EmpleadoEntity empleadoEntity) {
         empleadoRepository.save(empleadoEntity);
+    }
+
+    @Override
+    public boolean autenticarUsuario(String nombre, Integer documento) {
+        EmpleadoEntity empleado = empleadoRepository.findByNombreAndDocumento(nombre, documento);
+        return empleado != null;
     }
 }

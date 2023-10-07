@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/empleado")
+@CrossOrigin(origins = "*")
 public class EmpleadoController {
 
     @Autowired
@@ -23,5 +24,10 @@ public class EmpleadoController {
     @PostMapping(path = "/insertar")
     public void insertarEmpleado(@RequestBody EmpleadoEntity empleadoEntity) {
         empleadoService.insertarEmpleado(empleadoEntity);
+    }
+
+    @PostMapping(path = "/login")
+    public boolean login(@RequestBody EmpleadoEntity empleadoEntity) {
+        return empleadoService.autenticarUsuario(empleadoEntity.getNombre(), empleadoEntity.getDocumento());
     }
 }
