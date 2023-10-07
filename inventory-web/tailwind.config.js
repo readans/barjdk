@@ -5,7 +5,11 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      animation: {
+        slideDown: 'slideDown .6s ease-in-out'
+      }
+    },
   },
   plugins: [],
 }
