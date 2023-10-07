@@ -1,4 +1,4 @@
-function Card() {
+function Card({ item }) {
   return (
     <div className="flex p-3 bg-white rounded-lg shadow-sm">
       <div className="flex flex-grow gap-x-3">
@@ -20,19 +20,19 @@ function Card() {
         </div>
         <div className="flex items-center">
           <div className="">
-            <h1 className="font-semibold text-xl">Item1</h1>
-            <p className="">Description</p>
+            <h1 className="font-semibold text-xl">{item.title}</h1>
+            <p className="">{item.description}</p>
           </div>
         </div>
       </div>
       <div className="flex items-center">
         <div className="flex flex-col items-center">
           <div className="flex gap-x-2 items-center">
-            <h2 className="text-2xl font-semibold">99</h2>
+            <h2 className="text-2xl font-semibold">{item.qty}</h2>
             <h3>und</h3>
           </div>
           <span className="px-4 py-1 bg-gray-700 text-white rounded-full text-sm">
-            state
+            {item.state}
           </span>
         </div>
       </div>
