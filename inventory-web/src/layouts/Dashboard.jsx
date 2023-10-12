@@ -10,7 +10,13 @@ function Dashboard({ onLogout, user }) {
             <img src="/src/assets/icons/user.png" alt="" className="h-12" />
           </div>
           <h1 className="mt-2 text-xl">{`${user.nombre} ${user.apellido}`}</h1>
-          <h4 className="text-sm">Administrador</h4>
+          <h4 className="text-sm">
+            {user.fkRolId == 1
+              ? "Administrador"
+              : user.fkRolId == 2
+              ? "Mesero"
+              : "Cajero"}
+          </h4>
         </div>
         <ul className="flex-grow flex flex-col gap-y-1">
           <li>

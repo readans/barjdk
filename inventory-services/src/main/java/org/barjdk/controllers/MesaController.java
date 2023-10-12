@@ -2,7 +2,7 @@ package org.barjdk.controllers;
 
 import org.barjdk.entity.MesaEntity;
 import org.barjdk.implement.MesaImplement;
-import org.barjdk.service.MesaService;
+import org.barjdk.services.MesaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
