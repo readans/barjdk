@@ -18,14 +18,14 @@ function Dashboard({ onLogout, user }) {
               : "Cajero"}
           </h4>
         </div>
-        <ul className="flex-grow flex flex-col gap-y-1">
+        <ul className="flex-grow flex flex-col gap-y-1 px-1">
           <li>
             <NavLink
               to={"/"}
               className={({ isActive }) =>
                 `${
-                  isActive && "bg-slate-200 text-stone-800"
-                } flex items-center pl-4 h-10 gap-x-2 hover:bg-slate-200 hover:text-stone-800`
+                  isActive && "bg-gray-50 text-blue-900"
+                } flex items-center pl-4 h-10 gap-x-2 hover:bg-gray-50 hover:text-blue-900 transition-all rounded-lg`
               }
             >
               <svg
@@ -50,8 +50,8 @@ function Dashboard({ onLogout, user }) {
               to={"/orders"}
               className={({ isActive }) =>
                 `${
-                  isActive && "bg-slate-200 text-stone-800"
-                } flex items-center pl-4 h-10 gap-x-2 hover:bg-slate-200 hover:text-stone-800`
+                  isActive && "bg-gray-50 text-blue-900"
+                } flex items-center pl-4 h-10 gap-x-2 hover:bg-gray-50 hover:text-blue-900 transition-all rounded-lg`
               }
             >
               <svg
@@ -76,8 +76,8 @@ function Dashboard({ onLogout, user }) {
               to={"/payments"}
               className={({ isActive }) =>
                 `${
-                  isActive && "bg-slate-200 text-stone-800"
-                } flex items-center pl-4 h-10 gap-x-2 hover:bg-slate-200 hover:text-stone-800`
+                  isActive && "bg-gray-50 text-blue-900"
+                } flex items-center pl-4 h-10 gap-x-2 hover:bg-gray-50 hover:text-blue-900 transition-all rounded-lg`
               }
             >
               <svg

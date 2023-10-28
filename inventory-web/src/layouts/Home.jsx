@@ -1,6 +1,5 @@
 import Card from "../components/Card";
 import { useEffect, useState } from "react";
-import Alert from "../components/Alert";
 
 function Home() {
   const [productos, setProductos] = useState([]);
@@ -19,14 +18,14 @@ function Home() {
 
   return (
     <div className="flex justify-center">
-      <div className="w-11/12">
-        <ul className="flex gap-x-2 overflow-y-auto border-blue-900 border-b-2">
+      <div className="w-10/12 mb-6">
+        <ul className="inline-flex relative overflow-y-auto border-blue-900  after:absolute after:bottom-0 after:left-0 after:h-[2px] after:bg-gray-200 after:w-full">
           <li
             className={`${
               selectOpt == "productos"
-                ? "bg-blue-900 text-white"
-                : "bg-white text-stone-800"
-            } w-[200px] flex items-center justify-center h-10 rounded-t-xl cursor-pointer`}
+                ? "after:absolute after:bottom-0 after:left-0 after:h-[3px] after:bg-blue-900 after:w-full text-black font-semibold after:z-10"
+                : "text-gray-400"
+            } relative w-[200px] font-semibold flex items-center justify-center h-10 cursor-pointer hover:bg-gray-200 transition-all`}
             onClick={() => setSelectOpt("productos")}
           >
             Productos
@@ -34,9 +33,9 @@ function Home() {
           <li
             className={`${
               selectOpt == "mesas"
-                ? "bg-blue-900 text-white"
-                : "bg-white text-stone-800"
-            } w-[200px] flex items-center justify-center h-10 rounded-t-xl cursor-pointer`}
+                ? "after:absolute after:bottom-0 after:left-0 after:h-[3px] after:bg-blue-900 after:w-full text-black font-semibold after:z-10"
+                : "text-gray-400"
+            } relative w-[200px] font-semibold flex items-center justify-center h-10 cursor-pointer hover:bg-gray-200 transition-all`}
             onClick={() => setSelectOpt("mesas")}
           >
             Mesas
@@ -50,14 +49,30 @@ function Home() {
                   item={{
                     title: producto.descripcion,
                     description: producto.valor,
-                    qty: producto.cantidad,
-                    state: "Disponible",
                   }}
-                />
+                  selectable={true}
+                  onSelect={(item) => {
+                    console.log(item);
+                  }}
+                >
+                  <div className="flex items-center">
+                    <div className="flex flex-col items-center">
+                      <div className="flex gap-x-2 items-center">
+                        <h2 className="text-2xl font-semibold">
+                          {producto.cantidad}
+                        </h2>
+                        <h3>und</h3>
+                      </div>
+                      <span className="px-4 py-1 bg-gray-700 text-white rounded-full text-sm">
+                        {producto.cantidad > 0 ? "Disponible" : "Agotado"}
+                      </span>
+                    </div>
+                  </div>
+                </Card>
               ))
             : mesas.map((mesa) => (
                 <Card
-                  key={mesa.Id}
+                  key={mesa.pkMesaId}
                   item={{
                     title: `Mesa ${mesa.pkMesaId}`,
                     state: mesa.estado == 1 ? "Disponible" : "Ocupada",
