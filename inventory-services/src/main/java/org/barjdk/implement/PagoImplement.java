@@ -3,7 +3,7 @@ package org.barjdk.implement;
 import lombok.extern.slf4j.Slf4j;
 import org.barjdk.entity.PagoEntity;
 import org.barjdk.repository.PagoRepository;
-import org.barjdk.service.PagoService;
+import org.barjdk.services.PagoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

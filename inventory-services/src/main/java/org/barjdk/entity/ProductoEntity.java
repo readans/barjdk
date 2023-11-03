@@ -10,7 +10,7 @@ public class ProductoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "PK_PRODUCTO_ID")
-    private Integer pkPagoId;
+    private Integer pkProductoId;
 
     @Column(name = "DESCRIPCION")
     private String descripcion;
