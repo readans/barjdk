@@ -3,7 +3,7 @@ package org.barjdk.controllers;
 import org.barjdk.entity.EmpleadoEntity;
 import org.barjdk.entity.PedidoEntity;
 import org.barjdk.implement.PedidoImplement;
-import org.barjdk.service.PedidoService;
+import org.barjdk.services.PedidoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

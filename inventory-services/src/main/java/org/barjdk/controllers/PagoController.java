@@ -3,7 +3,7 @@ package org.barjdk.controllers;
 import org.barjdk.entity.EmpleadoEntity;
 import org.barjdk.entity.PagoEntity;
 import org.barjdk.implement.PagoImplement;
-import org.barjdk.service.PagoService;
+import org.barjdk.services.PagoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

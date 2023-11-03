@@ -28,8 +28,6 @@ i
 9src/main/java/org/barjdk/repository/PedidoRepository.java,a\2\a298da3c1248a0b42e1cd24880595072eaf5af84
 g
 7src/main/java/org/barjdk/implement/PedidoImplement.java,6\0\60dbb406639c00716f4b31a9edc6701212a9f8a1
-j
-:src/main/java/org/barjdk/controllers/PedidoController.java,d\7\d7753be5a7e97105d7a37dddc8c35ccef5d9ea80
 <
 build.gradle,f\0\f07866736216be0ee2aba49e392191aeae700a35
 g
