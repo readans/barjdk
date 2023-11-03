@@ -6,12 +6,13 @@ import {
   Routes,
   useRoutes,
 } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Login from "./layouts/Login";
 import Home from "./layouts/Home";
 import Dashboard from "./layouts/Dashboard";
 import Order from "./layouts/Order";
 import Payments from "./layouts/Payments";
+import { useProductoStore, useMesaStore } from "./store/store";
 
 function ProtectedRoute({ isAllowed, children, redirectTo }) {
   return !isAllowed ? <Navigate to={redirectTo} /> : children ?? <Outlet />;
@@ -19,6 +20,13 @@ function ProtectedRoute({ isAllowed, children, redirectTo }) {
 
 function App() {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
+
+  const { getProductos } = useProductoStore();
+  const { getMesas } = useMesaStore();
+  useEffect(() => {
+    getProductos();
+    getMesas();
+  }, []);
 
   const login = (user) => {
     localStorage.setItem("user", JSON.stringify(user));

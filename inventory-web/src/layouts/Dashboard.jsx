@@ -1,7 +1,6 @@
 import { NavLink, Outlet } from "react-router-dom";
 
 function Dashboard({ onLogout, user }) {
-  console.log(user);
   return (
     <>
       <nav className="fixed w-[220px] top-0 left-0 h-full bg-blue-900 text-white flex flex-col">
@@ -18,14 +17,14 @@ function Dashboard({ onLogout, user }) {
               : "Cajero"}
           </h4>
         </div>
-        <ul className="flex-grow flex flex-col gap-y-1 px-1">
+        <ul className="flex-grow flex flex-col gap-y-1 px-1 select-none">
           <li>
             <NavLink
               to={"/"}
               className={({ isActive }) =>
                 `${
-                  isActive && "bg-gray-50 text-blue-900"
-                } flex items-center pl-4 h-10 gap-x-2 hover:bg-gray-50 hover:text-blue-900 transition-all rounded-lg`
+                  isActive ? "bg-gray-50 text-blue-900" : "hover:bg-black/25"
+                } flex items-center pl-4 h-10 gap-x-2 transition-all rounded-lg`
               }
             >
               <svg
@@ -50,8 +49,8 @@ function Dashboard({ onLogout, user }) {
               to={"/orders"}
               className={({ isActive }) =>
                 `${
-                  isActive && "bg-gray-50 text-blue-900"
-                } flex items-center pl-4 h-10 gap-x-2 hover:bg-gray-50 hover:text-blue-900 transition-all rounded-lg`
+                  isActive ? "bg-gray-50 text-blue-900" : "hover:bg-black/25"
+                } flex items-center pl-4 h-10 gap-x-2 transition-all rounded-lg`
               }
             >
               <svg
@@ -76,8 +75,8 @@ function Dashboard({ onLogout, user }) {
               to={"/payments"}
               className={({ isActive }) =>
                 `${
-                  isActive && "bg-gray-50 text-blue-900"
-                } flex items-center pl-4 h-10 gap-x-2 hover:bg-gray-50 hover:text-blue-900 transition-all rounded-lg`
+                  isActive ? "bg-gray-50 text-blue-900" : "hover:bg-black/25"
+                } flex items-center pl-4 h-10 gap-x-2 transition-all rounded-lg`
               }
             >
               <svg

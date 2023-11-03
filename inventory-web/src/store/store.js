@@ -1,9 +1,23 @@
-// store.js
-import { configureStore } from '@reduxjs/toolkit';
-import rootReducer from '../reducers/reducers';
+import { create } from "zustand";
 
-const store = configureStore({
-  reducer: rootReducer
-})
+export const useProductoStore = create((set) => ({
+  productos: [],
+  getProductos: async () => {
+    const response = await fetch("http://localhost:8080/producto/consultar")
+    const productos = await response.json();
+    set(state => ({
+      productos
+    }))
+  },
+}));
 
-export default store;
+export const useMesaStore = create((set) => ({
+  mesas: [],
+  getMesas: async () => {
+    const response = await fetch("http://localhost:8080/mesa/consultar")
+    const mesas = await response.json();
+    set(state => ({
+      mesas
+    }))
+  },
+}))
