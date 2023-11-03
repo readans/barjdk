@@ -1,9 +1,12 @@
 package org.barjdk.services;
 
 import org.barjdk.entity.PedidoEntity;
+import java.util.List;
 
 public interface PedidoService {
 
-    void insertarEmpleado(PedidoEntity pedidoEntity);
+    void insertarPedido(PedidoEntity pedidoEntity);
+
+    List<PedidoEntity> consultarPedidos(Integer pkPedidoId);
 
 }
