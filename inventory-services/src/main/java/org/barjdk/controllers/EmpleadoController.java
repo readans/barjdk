@@ -9,7 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
-
+import java.util.Map;
+import java.util.HashMap;
 
 @RestController
 @RequestMapping("/empleado")
@@ -35,11 +36,17 @@ public class EmpleadoController {
 
         if (empleado != null) {
             log.info("Empleado encontrado en la base de datos.");
-            return ResponseEntity.ok("Empleado encontrado en la base de datos." + empleado.getFkRolId());
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Empleado encontrado en la base de datos.");
+            response.put("perfil", empleado.getFkRolId());
+            return ResponseEntity.ok().body(response);
         } else {
             log.warn("El empleado no existe en la base de datos.");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El empleado no existe en la base de datos.");
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("message", "El empleado no existe en la base de datos.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
         }
     }
+
 
 }
