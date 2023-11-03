@@ -1,8 +1,9 @@
 package org.barjdk.repository;
 
-import org.barjdk.entity.MesaEntity;
+import org.barjdk.entity.PagoEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-@Repository("MesaRepository")
-public interface MesaRepository extends JpaRepository<MesaEntity, Integer>{
+
+@Repository
+public interface PagoRepository extends JpaRepository<PagoEntity, Integer> {
 }

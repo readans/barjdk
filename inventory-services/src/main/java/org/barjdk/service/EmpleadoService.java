@@ -5,7 +5,7 @@ public interface EmpleadoService {
 
     void insertarEmpleado(EmpleadoEntity empleadoEntity);
 
-    public EmpleadoEntity obtenerEmpleado(String nombre, Integer documento);
+    public EmpleadoEntity obtenerEmpleado(String usuarioAcceso, String claveAcceso);
 
 
 }

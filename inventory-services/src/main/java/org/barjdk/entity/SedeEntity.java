@@ -12,8 +12,8 @@ public class SedeEntity {
     @Column(name = "PK_SEDE_ID ")
     private Integer pkSedeId;
 
-    @Column(name = "DIRECCION")
-    private String direccion;
+    @Column(name = "DIRECCION_SEDE")
+    private String direccionSede;
 }
 
 

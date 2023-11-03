@@ -5,6 +5,7 @@ import org.barjdk.implement.MesaImplement;
 import org.barjdk.service.MesaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -19,7 +20,7 @@ public class MesaController {
     MesaService mesaService;
 
     @GetMapping("/consultar")
-    public List<MesaEntity> obtenerTodasMesas(){
+    public List<MesaEntity> obtenerTodasMesas() {
         return mesaService.obtenerTodasMesas();
     }
 

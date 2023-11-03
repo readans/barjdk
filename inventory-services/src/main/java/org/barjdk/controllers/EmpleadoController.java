@@ -7,6 +7,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
+
 
 @RestController
 @RequestMapping("/empleado")
@@ -27,16 +30,16 @@ public class EmpleadoController {
     }
 
     @PostMapping(path = "/verificar")
-    public EmpleadoEntity verificarEmpleado(@RequestBody EmpleadoEntity empleadoEntity) {
-        // Verificar si el nombre y documento ya existen
-        EmpleadoEntity empleado = empleadoService.obtenerEmpleado(empleadoEntity.getNombre(), empleadoEntity.getDocumento());
+    public ResponseEntity<?> verificarEmpleado(@RequestBody EmpleadoEntity empleadoEntity) {
+        EmpleadoEntity empleado = empleadoService.obtenerEmpleado(empleadoEntity.getUsuarioAcceso(), empleadoEntity.getClaveAcceso());
 
         if (empleado != null) {
             log.info("Empleado encontrado en la base de datos.");
-            return empleado;
+            return ResponseEntity.ok("Empleado encontrado en la base de datos." + empleado.getFkRolId());
         } else {
             log.warn("El empleado no existe en la base de datos.");
-            return null;
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El empleado no existe en la base de datos.");
         }
     }
+
 }

@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 
 public interface EmpleadoRepository extends JpaRepository<EmpleadoEntity, Integer>{
 
-    EmpleadoEntity findByNombreAndDocumento(String nombre, Integer documento);
+    EmpleadoEntity findByUsuarioAccesoAndClaveAcceso(String usuarioAcceso, String claveAcceso);
 
 }

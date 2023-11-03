@@ -22,8 +22,8 @@ public class EmpleadoImplement implements EmpleadoService {
         empleadoRepository.save(empleadoEntity);
     }
 
-    public EmpleadoEntity obtenerEmpleado(String nombre, Integer documento) {
-        return empleadoRepository.findByNombreAndDocumento(nombre, documento);
+    public EmpleadoEntity obtenerEmpleado(String usuarioAcceso, String claveAcceso) {
+        return empleadoRepository.findByUsuarioAccesoAndClaveAcceso(usuarioAcceso, claveAcceso);
     }
 
 }

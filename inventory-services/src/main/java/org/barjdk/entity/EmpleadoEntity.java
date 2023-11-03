@@ -22,6 +22,12 @@ public class EmpleadoEntity {
     @Column(name = "APELLIDO")
     private String apellido;
 
+    @Column(name = "USUARIO_ACCESO")
+    private String usuarioAcceso;
+
+    @Column(name = "CLAVE_ACCESO")
+    private String claveAcceso;
+
     @Column(name = "FK_ROL_ID")
     private Integer fkRolId;
 
