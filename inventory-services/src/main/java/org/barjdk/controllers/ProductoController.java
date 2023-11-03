@@ -2,7 +2,7 @@ package org.barjdk.controllers;
 
 import org.barjdk.entity.ProductoEntity;
 import org.barjdk.implement.ProductoImplement;
-import org.barjdk.service.ProductoService;
+import org.barjdk.services.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

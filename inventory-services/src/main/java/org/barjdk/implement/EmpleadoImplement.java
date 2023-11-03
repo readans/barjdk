@@ -3,7 +3,7 @@ package org.barjdk.implement;
 import lombok.extern.slf4j.Slf4j;
 import org.barjdk.entity.EmpleadoEntity;
 import org.barjdk.repository.EmpleadoRepository;
-import org.barjdk.service.EmpleadoService;
+import org.barjdk.services.EmpleadoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

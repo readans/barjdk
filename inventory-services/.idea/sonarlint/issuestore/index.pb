@@ -4,14 +4,10 @@
 Dockerfile,6\6\6651ddff6eb82c840ced7c1dddee15c6e1913dd4
 Y
 )src/main/java/org/barjdk/Application.java,8\e\8e8f3a222b4da8077b612d990eed1a5576d6471d
-n
->src/main/java/org/barjdk/controllers/HelloWorldController.java,6\3\63dc83fe86e4bb98c8cdc13b9f9d614465741c7b
 k
 ;src/main/java/org/barjdk/repository/ProductoRepository.java,9\4\94f92d70bbd6e7e154b9e07a40017e9b971b7ec0
 i
 9src/main/java/org/barjdk/implement/ProductoImplement.java,c\c\cc070865290c6eeeef6d1dab55cd7c3a082c845a
-e
-5src/main/java/org/barjdk/service/ProductoService.java,6\8\68761fc88d301c56e7872a8037a513cecd1a30c2
 _
 /src/main/java/org/barjdk/entity/PagoEntity.java,9\c\9c355069b64cd9e27d6d04cb1bd88fb7342ddeff
 a
@@ -36,3 +32,8 @@ j
 :src/main/java/org/barjdk/controllers/PedidoController.java,d\7\d7753be5a7e97105d7a37dddc8c35ccef5d9ea80
 <
 build.gradle,f\0\f07866736216be0ee2aba49e392191aeae700a35
+g
+7src/main/java/org/barjdk/repository/PagoRepository.java,9\a\9aa341d42de7da02213354b7e6365e1ac83976c2
+:
+
+.gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302

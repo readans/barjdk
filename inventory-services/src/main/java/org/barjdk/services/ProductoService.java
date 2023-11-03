@@ -1,4 +1,4 @@
-package org.barjdk.service;
+package org.barjdk.services;
 
 import org.barjdk.entity.ProductoEntity;
 import java.util.List;

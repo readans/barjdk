@@ -9,7 +9,7 @@ function Modal({ hideModal, children }) {
 
   return (
     <div
-      className="fixed z-10 w-full h-full bg-black/50 grid place-items-center"
+      className="fixed top-0 left-0 z-20 w-full h-full bg-black/50 grid place-items-center"
       ref={backContent}
       onClick={(e) => handleClick(e)}
     >

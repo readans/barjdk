@@ -3,7 +3,7 @@ package org.barjdk.implement;
 import lombok.extern.slf4j.Slf4j;
 import org.barjdk.entity.ProductoEntity;
 import org.barjdk.repository.ProductoRepository;
-import org.barjdk.service.ProductoService;
+import org.barjdk.services.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;

@@ -1,6 +1,21 @@
-function Card({ item }) {
+import { useState } from "react";
+
+function Card({ item, children, selectable, onSelect }) {
+  const [selected, setSelected] = useState(false);
+
+  const handleSelect = () => {
+    if (!selectable) return;
+    setSelected((selected) => !selected);
+    onSelect(item);
+  };
+
   return (
-    <div className="flex p-3 bg-white rounded-lg shadow-sm">
+    <div
+      className={`flex p-3 rounded-lg shadow-sm ${
+        selected ? "bg-gray-200" : "bg-white"
+      } ${selectable && "cursor-pointer"}`}
+      onClick={() => handleSelect()}
+    >
       <div className="flex flex-grow gap-x-3">
         <div className="h-20 aspect-square bg-blue-900 rounded-md grid place-items-center text-white">
           <svg
@@ -25,19 +40,7 @@ function Card({ item }) {
           </div>
         </div>
       </div>
-      <div className="flex items-center">
-        <div className="flex flex-col items-center">
-          {item.qty != null && (
-            <div className="flex gap-x-2 items-center">
-              <h2 className="text-2xl font-semibold">{item.qty}</h2>
-              <h3>und</h3>
-            </div>
-          )}
-          <span className="px-4 py-1 bg-gray-700 text-white rounded-full text-sm">
-            {item.state}
-          </span>
-        </div>
-      </div>
+      {children}
     </div>
   );
 }
