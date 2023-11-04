@@ -1,6 +1,7 @@
 package org.barjdk.implement;
 
 import lombok.extern.slf4j.Slf4j;
+import org.barjdk.entity.MesaEntity;
 import org.barjdk.entity.PedidoEntity;
 import org.barjdk.repository.PedidoRepository;
 import org.barjdk.services.PedidoService;
@@ -22,8 +23,8 @@ public class PedidoImplement implements PedidoService {
         pedidoRepository.save(pedidoEntity);
     }
 
-    @Override
-    public List<PedidoEntity> consultarPedidos(Integer pkPedidoId) {
-        return pedidoRepository.findByPkPedidoId(pkPedidoId);
+    public List<PedidoEntity> consultarPedidos() {
+        return pedidoRepository.findAll();
     }
+
 }

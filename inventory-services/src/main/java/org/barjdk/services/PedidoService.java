@@ -7,6 +7,6 @@ public interface PedidoService {
 
     void insertarPedido(PedidoEntity pedidoEntity);
 
-    List<PedidoEntity> consultarPedidos(Integer pkPedidoId);
+    List<PedidoEntity> consultarPedidos();
 
 }
