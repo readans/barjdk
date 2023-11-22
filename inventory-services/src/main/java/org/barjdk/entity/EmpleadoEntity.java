@@ -1,5 +1,6 @@
 package org.barjdk.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -22,16 +23,20 @@ public class EmpleadoEntity {
     @Column(name = "APELLIDO")
     private String apellido;
 
+    @JsonIgnore
     @Column(name = "USUARIO_ACCESO")
     private String usuarioAcceso;
 
+    @JsonIgnore
     @Column(name = "CLAVE_ACCESO")
     private String claveAcceso;
 
-    @Column(name = "FK_ROL_ID")
-    private Integer fkRolId;
+    @OneToOne
+    @JoinColumn(name = "FK_ROL_ID")
+    private RolEntity rol;
 
-    @Column(name = "FK_SEDE_ID")
-    private Integer fkSedeId;
+    @OneToOne
+    @JoinColumn(name = "FK_SEDE_ID")
+    private SedeEntity sede;
 }
 

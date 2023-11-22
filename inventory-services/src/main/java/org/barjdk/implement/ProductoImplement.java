@@ -15,9 +15,29 @@ public class ProductoImplement implements ProductoService {
     @Autowired
     private ProductoRepository productoRepository;
 
-    public List<ProductoEntity> obtenerTodosProductos(){
+    @Override
+    public List<ProductoEntity> consultarTodos(){
         return productoRepository.findAll();
+    }
 
+    @Override
+    public ProductoEntity consultarPorId(Integer pkProductoId) {
+        return productoRepository.findById(pkProductoId).orElse(null);
+    }
+
+    @Override
+    public ProductoEntity guardar(ProductoEntity producto) {
+        return productoRepository.save(producto);
+    }
+
+    @Override
+    public void eliminar(ProductoEntity producto) {
+        productoRepository.delete(producto);
+    }
+
+    @Override
+    public void eliminarPorId(Integer pkProductoId) {
+        productoRepository.deleteById(pkProductoId);
     }
 
 }

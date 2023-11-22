@@ -1,5 +1,6 @@
 package org.barjdk.controllers;
 
+import org.barjdk.entity.EmpleadoEntity;
 import org.barjdk.entity.PagoEntity;
 import org.barjdk.implement.PagoImplement;
 import org.barjdk.services.PagoService;
@@ -17,22 +18,18 @@ import java.util.List;
 public class PagoController {
 
     @Autowired
-    PagoImplement pagoImplement;
-
-    @Autowired
     PagoService pagoService;
 
     private final Logger log = LoggerFactory.getLogger(EmpleadoController.class);
 
-    @PostMapping(path = "/insertar")
-    public void insertarPago(@RequestBody PagoEntity pagoEntity) {
-        pagoService.insertarPago(pagoEntity);
-    }
+    @GetMapping(path = "/consultar/{id}")
+    public PagoEntity consultarPorId(@PathVariable(name = "id") Integer pkPagoId) { return pagoService.consultarPorId(pkPagoId); }
 
-    @PostMapping(path = "/consultar")
-    public List<PagoEntity> consultarPagoPorId(@RequestBody Map<String, Integer> request) {
-        Integer pkPagoId = request.get("pkPagoId");
-        return pagoService.consultarPago(pkPagoId);
-    }
+    @GetMapping(path = "/consultarTodos")
+    public List<PagoEntity> consultarTodos() { return this.pagoService.consultarTodos();}
+
+    @RequestMapping(path = "/guardar", method = { RequestMethod.POST, RequestMethod.PUT })
+    public PagoEntity guardar(@RequestBody PagoEntity pago) {return pagoService.guardar(pago);}
+
 
 }

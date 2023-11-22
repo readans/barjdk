@@ -12,16 +12,32 @@ import java.util.List;
 @RequestMapping("/producto")
 @CrossOrigin(origins = "*")
 public class ProductoController {
-
-    @Autowired
-    ProductoImplement productoImplement;
-
     @Autowired
     ProductoService productoService;
 
-    @GetMapping("/consultar")
-    public List<ProductoEntity> obtenerTodosProductos(){
-        return productoService.obtenerTodosProductos();
+    @GetMapping("/consultarTodos")
+    public List<ProductoEntity> consultarTodos(){
+        return productoService.consultarTodos();
+    }
+
+    @GetMapping("/consultar/{id}")
+    public ProductoEntity consultarPorId(@PathVariable(name = "id") Integer pkProductoId) {
+        return productoService.consultarPorId(pkProductoId);
+    }
+
+    @RequestMapping(path = "/guardar", method = { RequestMethod.POST, RequestMethod.PUT })
+    public ProductoEntity guardar(@RequestBody ProductoEntity producto) {
+        return productoService.guardar(producto);
+    }
+
+    @DeleteMapping("/eliminar")
+    public void eliminar(@RequestBody ProductoEntity producto) {
+        productoService.eliminar(producto);
+    }
+
+    @DeleteMapping("/eliminar/{id}")
+    public void eliminarPorId(@PathVariable(name = "id") Integer pkProductoId) {
+        productoService.eliminarPorId(pkProductoId);
     }
 
 }

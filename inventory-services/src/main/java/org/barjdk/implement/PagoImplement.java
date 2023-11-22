@@ -16,13 +16,19 @@ public class PagoImplement implements PagoService {
     @Autowired
     private PagoRepository pagoRepository;
 
-    public void insertarPago(PagoEntity pagoEntity){
-        pagoRepository.save(pagoEntity);
+    @Override
+    public List<PagoEntity> consultarTodos() {
+        return pagoRepository.findAll();
     }
 
     @Override
-    public List<PagoEntity> consultarPago(Integer pkPagoId) {
-        return pagoRepository.findByPkPagoId(pkPagoId);
+    public PagoEntity consultarPorId(Integer pkPagoId) {
+        return pagoRepository.findById(pkPagoId).orElse(null);
+    }
+
+    @Override
+    public PagoEntity guardar(PagoEntity pago) {
+        return pagoRepository.save(pago);
     }
 
 }

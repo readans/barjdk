@@ -1,7 +1,7 @@
 package org.barjdk.controllers;
 
-import org.barjdk.entity.MesaEntity;
 import org.barjdk.entity.PedidoEntity;
+import org.barjdk.model.Orden;
 import org.barjdk.services.PedidoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,13 +20,20 @@ public class PedidoController {
 
     private final Logger log = LoggerFactory.getLogger(PedidoController.class);
 
-    @PostMapping(path = "/insertar")
-    public void insertarPedido(@RequestBody PedidoEntity pedidoEntity) {
-        pedidoService.insertarPedido(pedidoEntity);
+    @GetMapping("/consultarTodos")
+    public List<PedidoEntity> consultarTodos() {return pedidoService.consultarTodos();}
+
+    @GetMapping("/consultar/{id}")
+    public PedidoEntity consultarPorId(@PathVariable(name = "id") Integer pkPedidoId) {return pedidoService.consultarPorId(pkPedidoId);}
+
+    @RequestMapping(path = "/guardar", method = {RequestMethod.POST, RequestMethod.PUT})
+    public PedidoEntity guardar(@RequestBody PedidoEntity pedido) {
+        return pedidoService.guardar(pedido);
     }
 
-    @GetMapping("/consultar")
-    public List<PedidoEntity> consultarPedidos(){
-        return pedidoService.consultarPedidos();
+    @PostMapping(path = "/crear")
+    public PedidoEntity crearOrden(@RequestBody Orden orden) {
+        return pedidoService.crearOrden(orden);
     }
+
 }

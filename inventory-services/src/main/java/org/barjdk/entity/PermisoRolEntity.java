@@ -13,9 +13,11 @@ public class PermisoRolEntity {
     @Column(name = "PK_PERMISO_ROL_ID ")
     private Integer pkPermisoRolId;
 
-    @Column(name = "FK_PERMISO_ID")
-    private String fkPermisoId;
+    @ManyToOne
+    @JoinColumn(name = "FK_PERMISO_ID")
+    private PermisoEntity permiso;
 
-    @Column(name = "FK_ROL_ID")
-    private String fkRolId;
+    @ManyToOne
+    @JoinColumn(name = "FK_ROL_ID")
+    private RolEntity rol;
 }

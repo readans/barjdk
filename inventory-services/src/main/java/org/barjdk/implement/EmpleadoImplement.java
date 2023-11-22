@@ -2,10 +2,14 @@ package org.barjdk.implement;
 
 import lombok.extern.slf4j.Slf4j;
 import org.barjdk.entity.EmpleadoEntity;
+import org.barjdk.entity.PermisosEmpleadoEntity;
 import org.barjdk.repository.EmpleadoRepository;
+import org.barjdk.repository.PermisosEmpleadoRepository;
 import org.barjdk.services.EmpleadoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @Slf4j
@@ -14,16 +18,25 @@ public class EmpleadoImplement implements EmpleadoService {
     @Autowired
     private EmpleadoRepository empleadoRepository;
 
-    public EmpleadoImplement(EmpleadoRepository empleadoRepository) {
-        this.empleadoRepository = empleadoRepository;
-    }
+    @Autowired
+    private PermisosEmpleadoRepository permisosEmpleadoRepository;
 
-    public void insertarEmpleado(EmpleadoEntity empleadoEntity) {
-        empleadoRepository.save(empleadoEntity);
-    }
+    @Override
+    public EmpleadoEntity consultarPorId(Integer pkEmpleadoId) { return empleadoRepository.findById(pkEmpleadoId).orElse(null); }
 
-    public EmpleadoEntity obtenerEmpleado(String usuarioAcceso, String claveAcceso) {
-        return empleadoRepository.findByUsuarioAccesoAndClaveAcceso(usuarioAcceso, claveAcceso);
-    }
+    @Override
+    public List<EmpleadoEntity> consultarTodos() { return this.empleadoRepository.findAll(); }
+
+    @Override
+    public EmpleadoEntity guardar(EmpleadoEntity empleado) { return empleadoRepository.save(empleado);}
+
+    @Override
+    public void eliminar(EmpleadoEntity empleado) {empleadoRepository.delete(empleado); }
+
+    @Override
+    public void eliminarPorId(Integer pkEmpleadoId) { empleadoRepository.deleteById(pkEmpleadoId);}
+
+    @Override
+    public PermisosEmpleadoEntity validarAcceso(String usuarioAcceso, String claveAcceso) {return permisosEmpleadoRepository.findByUsuarioAccesoAndClaveAcceso(usuarioAcceso, claveAcceso);}
 
 }

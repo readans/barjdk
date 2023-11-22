@@ -14,14 +14,27 @@ import java.util.List;
 public class MesaController {
 
     @Autowired
-    MesaImplement mesaImplement;
-
-    @Autowired
     MesaService mesaService;
 
-    @GetMapping("/consultar")
-    public List<MesaEntity> obtenerTodasMesas() {
-        return mesaService.obtenerTodasMesas();
+    @GetMapping("/consultarTodos")
+    public List<MesaEntity> consultarTodos() {return mesaService.consultarTodos();}
+
+    @GetMapping("/consultar/{id}")
+    public MesaEntity consultarPorId(@PathVariable(name = "id") Integer pkMesaId) {return mesaService.consultarPorId(pkMesaId);}
+
+    @RequestMapping(path = "/guardar", method = {RequestMethod.POST, RequestMethod.PUT})
+    public MesaEntity guardar(@RequestBody MesaEntity mesa) {
+        return mesaService.guardar(mesa);
+    }
+
+    @DeleteMapping("/eliminar")
+    public void eliminar(@RequestBody MesaEntity mesa) {
+        mesaService.eliminar(mesa);
+    }
+
+    @DeleteMapping("/eliminar/{id}")
+    public void eliminarPorId(@PathVariable(name = "id") Integer pkMesaId) {
+        mesaService.eliminarPorId(pkMesaId);
     }
 
 }

@@ -1,6 +1,8 @@
 package org.barjdk.controllers;
 
+import jakarta.websocket.server.PathParam;
 import org.barjdk.entity.EmpleadoEntity;
+import org.barjdk.entity.PermisosEmpleadoEntity;
 import org.barjdk.implement.EmpleadoImplement;
 import org.barjdk.services.EmpleadoService;
 import org.slf4j.Logger;
@@ -9,8 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
+
+import javax.swing.text.html.Option;
+import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/empleado")
@@ -18,34 +24,30 @@ import java.util.HashMap;
 public class EmpleadoController {
 
     @Autowired
-    EmpleadoImplement empleadoImplement;
-
-    @Autowired
     EmpleadoService empleadoService;
 
     private final Logger log = LoggerFactory.getLogger(EmpleadoController.class);
 
-    @PostMapping(path = "/insertar")
-    public void insertarEmpleado(@RequestBody EmpleadoEntity empleadoEntity) {
-        empleadoService.insertarEmpleado(empleadoEntity);
+    @GetMapping(path = "/consultar/{id}")
+    public EmpleadoEntity consultarPorId(@PathVariable(name = "id") Integer pkEmpleadoId) { return empleadoService.consultarPorId(pkEmpleadoId); }
+
+    @GetMapping(path = "/consultarTodos")
+    public List<EmpleadoEntity> consultarTodos() { return this.empleadoService.consultarTodos();}
+
+    @RequestMapping(path = "/guardar", method = { RequestMethod.POST, RequestMethod.PUT })
+    public EmpleadoEntity guardar(@RequestBody EmpleadoEntity empleadoEntity) {return empleadoService.guardar(empleadoEntity);}
+
+    @DeleteMapping(path = "/eliminar")
+    public void eliminar(@RequestBody EmpleadoEntity empleado) { empleadoService.eliminar(empleado); }
+
+    @DeleteMapping("/eliminar/{id}")
+    public void eliminarPorId(@PathVariable(name = "id") Integer pkEmpleadoId) {
+        empleadoService.eliminarPorId(pkEmpleadoId);
     }
 
-    @PostMapping(path = "/verificar")
-    public ResponseEntity<?> verificarEmpleado(@RequestBody EmpleadoEntity empleadoEntity) {
-        EmpleadoEntity empleado = empleadoService.obtenerEmpleado(empleadoEntity.getUsuarioAcceso(), empleadoEntity.getClaveAcceso());
-
-        if (empleado != null) {
-            log.info("Empleado encontrado en la base de datos.");
-            Map<String, Object> response = new HashMap<>();
-            response.put("message", "Empleado encontrado en la base de datos.");
-            response.put("perfil", empleado.getFkRolId());
-            return ResponseEntity.ok().body(response);
-        } else {
-            log.warn("El empleado no existe en la base de datos.");
-            Map<String, String> errorResponse = new HashMap<>();
-            errorResponse.put("message", "El empleado no existe en la base de datos.");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
-        }
+    @PostMapping(path = "/validar")
+    public PermisosEmpleadoEntity validar(@RequestBody EmpleadoEntity empleadoEntity) {
+        return empleadoService.validarAcceso(empleadoEntity.getUsuarioAcceso(), empleadoEntity.getClaveAcceso());
     }
 
 
