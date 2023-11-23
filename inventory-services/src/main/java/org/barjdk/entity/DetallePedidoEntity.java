@@ -14,11 +14,11 @@ public class DetallePedidoEntity {
     private Integer pkDetallePedidoId;
 
     @Column(name = "FK_PEDIDO_ID")
-    private String fkPedidoId;
+    private Integer fkPedidoId;
 
     @Column(name = "FK_PRODUCTO_ID")
-    private String fkProductoId;
+    private Integer fkProductoId;
 
     @Column(name = "CANTIDAD")
-    private String cantidad;
+    private Integer cantidad;
 }

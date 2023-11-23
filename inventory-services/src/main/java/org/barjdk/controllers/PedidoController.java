@@ -1,7 +1,7 @@
 package org.barjdk.controllers;
 
+import org.barjdk.entity.PedidoDetallesEntity;
 import org.barjdk.entity.PedidoEntity;
-import org.barjdk.model.Orden;
 import org.barjdk.services.PedidoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,18 +22,17 @@ public class PedidoController {
 
     @GetMapping("/consultarTodos")
     public List<PedidoEntity> consultarTodos() {return pedidoService.consultarTodos();}
-
     @GetMapping("/consultar/{id}")
     public PedidoEntity consultarPorId(@PathVariable(name = "id") Integer pkPedidoId) {return pedidoService.consultarPorId(pkPedidoId);}
-
+    @GetMapping("/consultaDetallada/{id}")
+    public PedidoDetallesEntity consultaDetallada(@PathVariable(name = "id") Integer pkPedidoId) {return pedidoService.consultaDetallada(pkPedidoId);}
     @RequestMapping(path = "/guardar", method = {RequestMethod.POST, RequestMethod.PUT})
     public PedidoEntity guardar(@RequestBody PedidoEntity pedido) {
         return pedidoService.guardar(pedido);
     }
-
-    @PostMapping(path = "/crear")
-    public PedidoEntity crearOrden(@RequestBody Orden orden) {
-        return pedidoService.crearOrden(orden);
+    @PostMapping(path = "/generar")
+    public PedidoEntity generar(@RequestBody PedidoDetallesEntity pedidoDetalles) {
+        return pedidoService.generar(pedidoDetalles);
     }
 
 }
