@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import Modal from "../components/Modal";
-import { useProductoStore, useMesaStore } from "../store/store";
+import { useProductoStore, useMesaStore, usePedidoStore } from "../store/store";
 import Count from "../components/Count";
 
 function Order() {
+  const pedidos = usePedidoStore((state) => state.pedidos);
   const productos = useProductoStore((state) => state.productos);
   const mesas = useMesaStore((state) => state.mesas);
 
@@ -46,11 +47,13 @@ function Order() {
     <>
       {showModal && (
         <Modal hideModal={() => setShowModal(false)}>
-          <div className="px-10 pt-14 ">
-            <h2 className="text-xl inline-block text-blue-900 font-semibold border-blue-900 border-b-2 mb-4 leading-relaxed">
-              Crear Pedido
-            </h2>
-            <div className="flex gap-x-2">
+          <div className="flex px-3 pt-8 pb-2 flex-col gap-y-2 h-full">
+            <div className="">
+              <h2 className="text-xl inline-block text-blue-900 font-semibold border-blue-900 border-b-2 mb-4 leading-relaxed">
+                Crear Pedido
+              </h2>
+            </div>
+            <div className="flex gap-x-2 flex-grow overflow-y-auto overflow-x-hidden px-4">
               <div className="w-6/12">
                 <h4 className="font-medium text-xl mb-2">Mesa</h4>
                 {mesasDisp.map((mesa) => (
@@ -178,6 +181,42 @@ function Order() {
                 />
               </svg>
             </button>
+          </div>
+          <div className="grid grid-cols-2 gap-2 mt-4">
+            {pedidos.map((pedido) => (
+              <div
+                className="flex p-3 gap-x-2 items-center rounded-lg shadow-sm bg-white"
+                key={`ped${pedido.pkPedidoId}`}
+              >
+                <div className="h-20 aspect-square bg-blue-900 rounded-md grid place-items-center text-white">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-10"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"
+                    />
+                  </svg>
+                </div>
+                <div className="w-full">
+                  <div className="flex items-center">
+                    <h1 className="font-semibold text-xl">
+                      {pedido.pkPedidoId}
+                    </h1>
+                  </div>
+                  <div className="flex justify-between">
+                    <h3>Mesa {pedido.fkMesaId}</h3>
+                    <h3>Empleado: {pedido.fkEmpleadoId}</h3>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>

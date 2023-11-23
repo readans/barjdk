@@ -10,6 +10,17 @@ export default function Login({ isAuthenticated, onLogin }) {
 
   const [error, setError] = useState(false);
 
+  const getPermissions = (pkRolId) => {
+    switch (pkRolId) {
+      case 1:
+        return ["orders", "payments"];
+      case 2:
+        return ["orders"];
+      case 3:
+        return ["payments"];
+    }
+  };
+
   const authUser = (username, password) => {
     fetch("http://localhost:8080/empleado/verificar", {
       method: "POST",
@@ -17,14 +28,14 @@ export default function Login({ isAuthenticated, onLogin }) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        nombre: username,
-        documento: password,
+        usuarioAcceso: username,
+        claveAcceso: password,
       }),
     })
       .then((res) => res.json())
       .then((data) => {
         data.error == undefined
-          ? onLogin({ ...data, permissions: ["orders", "payments"] })
+          ? onLogin({ ...data, permissions: getPermissions(data.fkRolId) })
           : setError(true);
       })
       .catch((e) => setError(true));

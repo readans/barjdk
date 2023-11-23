@@ -21,3 +21,26 @@ export const useMesaStore = create((set) => ({
     }))
   },
 }))
+
+export const usePedidoStore = create((set) => ({
+  pedidos: [],
+  getPedidos: async () => {
+    const response = await fetch("http://localhost:8080/pedido/consultar")
+    const pedidos = await response.json();
+    console.log(pedidos)
+    set(state => ({
+      pedidos
+    }))
+  },
+}))
+
+export const usePagoStore = create((set) => ({
+  pagos: [],
+  getPagos: async () => {
+    const response = await fetch("http://localhost:8080/pago/consultar")
+    const pagos = await response.json();
+    set(state => ({
+      pagos
+    }))
+  },
+}))

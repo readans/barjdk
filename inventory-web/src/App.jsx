@@ -12,7 +12,12 @@ import Home from "./layouts/Home";
 import Dashboard from "./layouts/Dashboard";
 import Order from "./layouts/Order";
 import Payments from "./layouts/Payments";
-import { useProductoStore, useMesaStore } from "./store/store";
+import {
+  useProductoStore,
+  useMesaStore,
+  usePedidoStore,
+  usePagoStore,
+} from "./store/store";
 
 function ProtectedRoute({ isAllowed, children, redirectTo }) {
   return !isAllowed ? <Navigate to={redirectTo} /> : children ?? <Outlet />;
@@ -23,9 +28,13 @@ function App() {
 
   const { getProductos } = useProductoStore();
   const { getMesas } = useMesaStore();
+  const { getPedidos } = usePedidoStore();
+  const { getPagos } = usePagoStore();
   useEffect(() => {
     getProductos();
     getMesas();
+    getPedidos();
+    getPagos();
   }, []);
 
   const login = (user) => {

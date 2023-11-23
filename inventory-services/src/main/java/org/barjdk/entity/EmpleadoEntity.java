@@ -23,11 +23,9 @@ public class EmpleadoEntity {
     @Column(name = "APELLIDO")
     private String apellido;
 
-    @JsonIgnore
     @Column(name = "USUARIO_ACCESO")
     private String usuarioAcceso;
 
-    @JsonIgnore
     @Column(name = "CLAVE_ACCESO")
     private String claveAcceso;
 

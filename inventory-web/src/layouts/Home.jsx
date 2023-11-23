@@ -5,7 +5,6 @@ function Home() {
   const productos = useProductoStore((state) => state.productos);
   const mesas = useMesaStore((state) => state.mesas);
   const [selectOpt, setSelectOpt] = useState("productos");
-  console.log(productos);
 
   return (
     <div className="flex justify-center">
