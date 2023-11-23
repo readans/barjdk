@@ -15,7 +15,7 @@ public class EmpleadoEntity {
     private Integer pkEmpleadoId;
 
     @Column(name = "DOCUMENTO")
-    private Integer documento;
+    private String documento;
 
     @Column(name = "NOMBRE")
     private String nombre;

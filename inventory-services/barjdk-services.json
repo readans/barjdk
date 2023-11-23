@@ -96,7 +96,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"pkEmpleadoId\": 6,\n    \"documento\": 4452,\n    \"nombre\": \"DYLAN\",\n    \"apellido\": \"ARIZA\",\n    \"usuarioAcceso\": \"DYLAN.ARIZA\",\n    \"claveAcceso\": \"SEPTIEMBRE.20\",\n    \"rol\" : {\n        \"pkRolId\": 1\n    },\n    \"sede\" : {\n        \"pkSedeId\": 1\n    }\n}",
+							"raw": "{\n    \"pkEmpleadoId\": 8,\n    \"documento\": \"4452\",\n    \"nombre\": \"DYLAN\",\n    \"apellido\": \"ARIZA\",\n    \"usuarioAcceso\": \"DYLAN.ARIZA\",\n    \"claveAcceso\": \"SEPTIEMBRE.20\",\n    \"rol\" : {\n        \"pkRolId\": 1\n    },\n    \"sede\" : {\n        \"pkSedeId\": 1\n    }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -180,7 +180,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"documento\": 4452,\n    \"nombre\": \"STEVEN\",\n    \"apellido\": \"ARIZA\",\n    \"usuarioAcceso\": \"DYLAN.ARIZA\",\n    \"claveAcceso\": \"SEPTIEMBRE.20\",\n    \"rol\" : {\n        \"pkRolId\": 1\n    },\n    \"sede\" : {\n        \"pkSedeId\": 1\n    }\n}",
+							"raw": "{\n    \"documento\": \"4452\",\n    \"nombre\": \"STEVEN\",\n    \"apellido\": \"ARIZA\",\n    \"usuarioAcceso\": \"DYLAN.ARIZA\",\n    \"claveAcceso\": \"SEPTIEMBRE.20\",\n    \"rol\" : {\n        \"pkRolId\": 1\n    },\n    \"sede\" : {\n        \"pkSedeId\": 1\n    }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -222,7 +222,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"pkEmpleadoId\": 6,\r\n    \"documento\": 4452,\r\n    \"nombre\": \"DYLAN\",\r\n    \"apellido\": \"ARIZA\",\r\n    \"usuarioAcceso\": \"DYLAN.ARIZA\",\r\n    \"claveAcceso\": \"SEPTIEMBRE.20\",\r\n    \"rol\" : {\r\n        \"pkRolId\": 1\r\n    },\r\n    \"sede\" : {\r\n        \"pkSedeId\": 1\r\n    }\r\n}",
+							"raw": "{\r\n    \"pkEmpleadoId\": 6,\r\n    \"documento\": \"4452\",\r\n    \"nombre\": \"DYLAN\",\r\n    \"apellido\": \"ARIZA\",\r\n    \"usuarioAcceso\": \"DYLAN.ARIZA\",\r\n    \"claveAcceso\": \"SEPTIEMBRE.20\",\r\n    \"rol\" : {\r\n        \"pkRolId\": 1\r\n    },\r\n    \"sede\" : {\r\n        \"pkSedeId\": 1\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -450,13 +450,13 @@
 						{
 							"listen": "test",
 							"script": {
-								"type": "text/javascript",
 								"exec": [
 									"pm.test(\"Successful DELETE request\", function () {",
 									"    pm.expect(pm.response.code).to.be.oneOf([200, 202, 204]);",
 									"});",
 									""
-								]
+								],
+								"type": "text/javascript"
 							}
 						}
 					],
@@ -473,18 +473,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_url}}/info?id=1",
+							"raw": "{{base_url}}/producto/eliminar",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
-								"info"
-							],
-							"query": [
-								{
-									"key": "id",
-									"value": "1"
-								}
+								"producto",
+								"eliminar"
 							]
 						},
 						"description": "This is a DELETE request, and it is used to delete data that was previously created via a POST request. You typically identify the entity being updated by including an identifier in the URL (eg. `id=1`).\n\nA successful DELETE request typically returns a `200 OK`, `202 Accepted`, or `204 No Content` response code."
