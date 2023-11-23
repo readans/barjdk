@@ -4,6 +4,7 @@ import jakarta.websocket.server.PathParam;
 import org.barjdk.entity.EmpleadoEntity;
 import org.barjdk.entity.PermisosEmpleadoEntity;
 import org.barjdk.implement.EmpleadoImplement;
+import org.barjdk.model.Login;
 import org.barjdk.services.EmpleadoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,8 +47,9 @@ public class EmpleadoController {
     }
 
     @PostMapping(path = "/validar")
-    public PermisosEmpleadoEntity validar(@RequestBody EmpleadoEntity empleadoEntity) {
-        return empleadoService.validarAcceso(empleadoEntity.getUsuarioAcceso(), empleadoEntity.getClaveAcceso());
+    public PermisosEmpleadoEntity validar(@RequestBody Login login) {
+        log.info(String.format("empleado: %s", login.toString()));
+        return empleadoService.validarAcceso(login.getUsuarioAcceso(), login.getClaveAcceso());
     }
 
 
