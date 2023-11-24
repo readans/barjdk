@@ -1,7 +1,7 @@
 package org.barjdk.implement;
 
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
-import org.barjdk.entity.DetallePedidoEntity;
 import org.barjdk.entity.PedidoDetallesEntity;
 import org.barjdk.entity.PedidoEntity;
 import org.barjdk.repository.DetallePedidoRepository;
@@ -45,15 +45,18 @@ public class PedidoImplement implements PedidoService {
     }
 
     @Override
+    @Transactional
     public PedidoEntity generar(PedidoDetallesEntity pedidoDetalles) {
         PedidoEntity pedido = new PedidoEntity();
         pedido.setFkEmpleadoId(pedidoDetalles.getFkEmpleadoId());
         pedido.setFkMesaId(pedidoDetalles.getFkMesaId());
         PedidoEntity pedidoCreado = pedidoRepository.save(pedido);
-        pedidoDetalles.getDetalles().forEach((DetallePedidoEntity detalle) -> {
-            detalle.setFkPedidoId(pedidoCreado.getPkPedidoId());
-        });
-        detallePedidoRepository.saveAll(pedidoDetalles.getDetalles());
+        pedidoDetalles.getDetalles().stream()
+                .map(detalle -> {
+                    detalle.setFkPedidoId(pedidoCreado.getPkPedidoId());
+                    return detalle;
+                })
+                .forEach(detallePedidoRepository::save);
         return pedidoCreado;
     }
 }

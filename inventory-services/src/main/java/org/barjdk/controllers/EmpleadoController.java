@@ -1,8 +1,10 @@
 package org.barjdk.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.barjdk.entity.EmpleadoEntity;
 import org.barjdk.entity.PermisosEmpleadoEntity;
 import org.barjdk.services.EmpleadoService;
+import org.barjdk.utils.cipher.Jwt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,11 @@ public class EmpleadoController {
     @Autowired
     EmpleadoService empleadoService;
 
+    @Autowired
+    Jwt jwt;
+
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
     private final Logger log = LoggerFactory.getLogger(EmpleadoController.class);
 
     @GetMapping(path = "/consultar/{id}")
@@ -27,9 +34,10 @@ public class EmpleadoController {
     public List<EmpleadoEntity> consultarTodos() { return this.empleadoService.consultarTodos();}
 
     @RequestMapping(path = "/guardar", method = { RequestMethod.POST, RequestMethod.PUT })
-    public EmpleadoEntity guardar(@RequestBody EmpleadoEntity empleadoEntity) {
-        log.info(String.format("Empleado: %s", empleadoEntity.toString()));
-        return empleadoService.guardar(empleadoEntity);
+    public String guardar(@RequestBody String reqBody) throws Exception {
+        String decrypted = jwt.decrypt(reqBody);
+        EmpleadoEntity empleadoEntity = objectMapper.readValue(decrypted, EmpleadoEntity.class);
+        return jwt.encrypt(objectMapper.writeValueAsString(empleadoService.guardar(empleadoEntity)));
     }
 
     @DeleteMapping(path = "/eliminar")

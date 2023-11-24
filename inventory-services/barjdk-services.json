@@ -96,10 +96,10 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"pkEmpleadoId\": 8,\n    \"documento\": \"4452\",\n    \"nombre\": \"DYLAN\",\n    \"apellido\": \"ARIZA\",\n    \"usuarioAcceso\": \"DYLAN.ARIZA\",\n    \"claveAcceso\": \"SEPTIEMBRE.20\",\n    \"rol\" : {\n        \"pkRolId\": 1\n    },\n    \"sede\" : {\n        \"pkSedeId\": 1\n    }\n}",
+							"raw": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwa0VtcGxlYWRvSWQiOjgsImRvY3VtZW50byI6IjQ0NTIiLCJub21icmUiOiJEWUxBTiIsImFwZWxsaWRvIjoiQVJJWkEiLCJ1c3VhcmlvQWNjZXNvIjoiRFlMQU4uQVJJWkEiLCJjbGF2ZUFjY2VzbyI6IlNFUFRJRU1CUkUuMjAiLCJyb2wiOnsicGtSb2xJZCI6MX0sInNlZGUiOnsicGtTZWRlSWQiOjF9fQ.rmvJXyz71dunqN48kEPr8YbPW2R-8Vblu85dYb1P9bA",
 							"options": {
 								"raw": {
-									"language": "json"
+									"language": "text"
 								}
 							}
 						},
@@ -180,10 +180,10 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"documento\": \"4452\",\n    \"nombre\": \"STEVEN\",\n    \"apellido\": \"ARIZA\",\n    \"usuarioAcceso\": \"DYLAN.ARIZA\",\n    \"claveAcceso\": \"SEPTIEMBRE.20\",\n    \"rol\" : {\n        \"pkRolId\": 1\n    },\n    \"sede\" : {\n        \"pkSedeId\": 1\n    }\n}",
+							"raw": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwa0VtcGxlYWRvSWQiOjMsImRvY3VtZW50byI6IjEwMDAzMzU5NzMiLCJub21icmUiOiJKT0hOQVRUQU4iLCJhcGVsbGlkbyI6IlNVQVJFWiIsInVzdWFyaW9BY2Nlc28iOiJKT0hOQVRUQU4uU1VBUkVaIiwiY2xhdmVBY2Nlc28iOiJTRVBUSUVNQlJFLjI0Iiwicm9sIjp7InBrUm9sSWQiOjEsIm5vbWJyZSI6IkFETUlOSVNUUkFET1IifSwic2VkZSI6eyJwa1NlZGVJZCI6MSwiZGlyZWNjaW9uU2VkZSI6IkNMTCA4MEEgIzk1QyAifX0.62K9kIRS99ZPCxvVUmdjPTQdZCO9uVFDwbitAocwQQg",
 							"options": {
 								"raw": {
-									"language": "json"
+									"language": "text"
 								}
 							}
 						},
@@ -780,14 +780,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/pedido/consultaDetallada/4",
+							"raw": "{{base_url}}/pedido/consultaDetallada/6",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"pedido",
 								"consultaDetallada",
-								"4"
+								"6"
 							]
 						},
 						"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
@@ -856,7 +856,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"fkEmpleadoId\": 1,\n    \"fkMesaId\": 1,\n    \"detalles\" : [\n        {\n            \"fkProductoId\": 1,\n            \"cantidad\": 2\n        },\n        {\n            \"fkProductoId\": 2,\n            \"cantidad\": 4\n        }\n    ]\n}",
+							"raw": "{\n    \"fkEmpleadoId\": 3,\n    \"fkMesaId\": 5,\n    \"detalles\" : [\n        {\n            \"fkProductoId\": 2,\n            \"cantidad\": 5\n        },\n        {\n            \"fkProductoId\": 3,\n            \"cantidad\": 4\n        }\n    ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -968,6 +968,60 @@
 							]
 						},
 						"description": "This is a DELETE request, and it is used to delete data that was previously created via a POST request. You typically identify the entity being updated by including an identifier in the URL (eg. `id=1`).\n\nA successful DELETE request typically returns a `200 OK`, `202 Accepted`, or `204 No Content` response code."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "JWT",
+			"item": [
+				{
+					"name": "encriptar",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n        \"pkEmpleadoId\": 3,\r\n        \"documento\": \"1000335973\",\r\n        \"nombre\": \"JOHNATTAN\",\r\n        \"apellido\": \"SUAREZ\",\r\n        \"usuarioAcceso\": \"JOHNATTAN.SUAREZ\",\r\n        \"claveAcceso\": \"SEPTIEMBRE.24\",\r\n        \"rol\": {\r\n            \"pkRolId\": 1,\r\n            \"nombre\": \"ADMINISTRADOR\"\r\n        },\r\n        \"sede\": {\r\n            \"pkSedeId\": 1,\r\n            \"direccionSede\": \"CLL 80A #95C \"\r\n        }\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/jwt/encriptar",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"jwt",
+								"encriptar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "desencriptar",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwa0VtcGxlYWRvSWQiOjMsImRvY3VtZW50byI6IjEwMDAzMzU5NzMiLCJub21icmUiOiJKT0hOQVRUQU4iLCJhcGVsbGlkbyI6IlNVQVJFWiIsInVzdWFyaW9BY2Nlc28iOiJKT0hOQVRUQU4uU1VBUkVaIiwiY2xhdmVBY2Nlc28iOiI0YTAyNjgyODU3N2M4MjA5YjMwNGI0ZDY1ZjdiOWU0ZGNkZWE1NWJiNGFmNWM3NjgzNTUxZGI0MTE3OTc1MTE4Iiwicm9sIjp7InBrUm9sSWQiOjEsIm5vbWJyZSI6IkFETUlOSVNUUkFET1IifSwic2VkZSI6eyJwa1NlZGVJZCI6MSwiZGlyZWNjaW9uU2VkZSI6IkNMTCA4MEEgIzk1QyAifX0.c_-B42KEmkD5E4aXwupuCUYHuYHmHeW86MisSF1d8V8"
+						},
+						"url": {
+							"raw": "{{base_url}}/jwt/desencriptar",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"jwt",
+								"desencriptar"
+							]
+						}
 					},
 					"response": []
 				}

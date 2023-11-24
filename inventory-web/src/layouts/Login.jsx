@@ -22,7 +22,7 @@ export default function Login({ isAuthenticated, onLogin }) {
   };
 
   const authUser = (username, password) => {
-    fetch("http://localhost:8080/empleado/verificar", {
+    fetch("http://localhost:8080/empleado/validar", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -35,7 +35,7 @@ export default function Login({ isAuthenticated, onLogin }) {
       .then((res) => res.json())
       .then((data) => {
         data.error == undefined
-          ? onLogin({ ...data, permissions: getPermissions(data.fkRolId) })
+          ? onLogin({ ...data, permissions: getPermissions(data.rol.pkRolId) })
           : setError(true);
       })
       .catch((e) => setError(true));
