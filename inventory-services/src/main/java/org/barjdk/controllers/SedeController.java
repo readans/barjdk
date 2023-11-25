@@ -32,17 +32,19 @@ public class SedeController {
     }
 
     @GetMapping("/consultar/{id}")
-    public SedeEntity consultarPorId(@PathVariable(name = "id") Integer pkSedeId) {
-        return sedeService.consultarPorId(pkSedeId);
+    public String consultarPorId(@PathVariable(name = "id") Integer pkSedeId) throws Exception {
+        return jwt.encrypt(objectMapper.writeValueAsString(sedeService.consultarPorId(pkSedeId)));
     }
 
     @RequestMapping(path = "/guardar", method = { RequestMethod.POST, RequestMethod.PUT })
-    public SedeEntity guardar(@RequestBody SedeEntity sede) {
-        return sedeService.guardar(sede);
+    public String guardar(@RequestBody String token) throws Exception {
+        SedeEntity sede = objectMapper.readValue(jwt.decrypt(token), SedeEntity.class);
+        return jwt.encrypt(objectMapper.writeValueAsString(sedeService.guardar(sede)));
     }
 
     @DeleteMapping("/eliminar")
-    public void eliminar(@RequestBody SedeEntity sede) {
+    public void eliminar(@RequestBody String token) throws Exception {
+        SedeEntity sede = objectMapper.readValue(jwt.decrypt(token), SedeEntity.class);
         sedeService.eliminar(sede);
     }
 

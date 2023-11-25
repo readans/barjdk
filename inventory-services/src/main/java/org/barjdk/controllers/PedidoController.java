@@ -36,12 +36,17 @@ public class PedidoController {
         return jwt.encrypt(jsonNode.toString());
     }
     @GetMapping("/consultar/{id}")
-    public PedidoEntity consultarPorId(@PathVariable(name = "id") Integer pkPedidoId) {return pedidoService.consultarPorId(pkPedidoId);}
+    public String consultarPorId(@PathVariable(name = "id") Integer pkPedidoId) throws Exception {
+        return jwt.encrypt(objectMapper.writeValueAsString(pedidoService.consultarPorId(pkPedidoId)));
+    }
     @GetMapping("/consultaDetallada/{id}")
-    public PedidoDetallesEntity consultaDetallada(@PathVariable(name = "id") Integer pkPedidoId) {return pedidoService.consultaDetallada(pkPedidoId);}
+    public String consultaDetallada(@PathVariable(name = "id") Integer pkPedidoId) throws Exception {
+        return jwt.encrypt(objectMapper.writeValueAsString(pedidoService.consultaDetallada(pkPedidoId)));
+    }
     @RequestMapping(path = "/guardar", method = {RequestMethod.POST, RequestMethod.PUT})
-    public PedidoEntity guardar(@RequestBody PedidoEntity pedido) {
-        return pedidoService.guardar(pedido);
+    public String guardar(@RequestBody String token) throws Exception {
+        PedidoEntity pedido = objectMapper.readValue(jwt.decrypt(token), PedidoEntity.class);
+        return jwt.encrypt(objectMapper.writeValueAsString(pedidoService.guardar(pedido)));
     }
     @PostMapping(path = "/generar")
     public String generar(@RequestBody String token) throws Exception {

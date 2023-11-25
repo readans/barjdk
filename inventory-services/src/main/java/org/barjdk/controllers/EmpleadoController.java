@@ -29,7 +29,9 @@ public class EmpleadoController {
     private final Logger log = LoggerFactory.getLogger(EmpleadoController.class);
 
     @GetMapping(path = "/consultar/{id}")
-    public EmpleadoEntity consultarPorId(@PathVariable(name = "id") Integer pkEmpleadoId) { return empleadoService.consultarPorId(pkEmpleadoId); }
+    public String consultarPorId(@PathVariable(name = "id") Integer pkEmpleadoId) throws Exception {
+        return jwt.encrypt(objectMapper.writeValueAsString(empleadoService.consultarPorId(pkEmpleadoId)));
+    }
 
     @GetMapping(path = "/consultarTodos")
     public String consultarTodos() {
@@ -40,14 +42,17 @@ public class EmpleadoController {
     }
 
     @RequestMapping(path = "/guardar", method = { RequestMethod.POST, RequestMethod.PUT })
-    public String guardar(@RequestBody String reqBody) throws Exception {
-        String decrypted = jwt.decrypt(reqBody);
+    public String guardar(@RequestBody String token) throws Exception {
+        String decrypted = jwt.decrypt(token);
         EmpleadoEntity empleadoEntity = objectMapper.readValue(decrypted, EmpleadoEntity.class);
         return jwt.encrypt(objectMapper.writeValueAsString(empleadoService.guardar(empleadoEntity)));
     }
 
     @DeleteMapping(path = "/eliminar")
-    public void eliminar(@RequestBody EmpleadoEntity empleado) { empleadoService.eliminar(empleado); }
+    public void eliminar(@RequestBody String token) throws Exception {
+        EmpleadoEntity empleado = objectMapper.readValue(jwt.decrypt(token), EmpleadoEntity.class);
+        empleadoService.eliminar(empleado);
+    }
 
     @DeleteMapping("/eliminar/{id}")
     public void eliminarPorId(@PathVariable(name = "id") Integer pkEmpleadoId) {
@@ -55,11 +60,10 @@ public class EmpleadoController {
     }
 
     @PostMapping(path = "/validar")
-    public String validar(@RequestBody String reqBody) throws Exception {
-        String decrypt = jwt.decrypt(reqBody);
+    public String validar(@RequestBody String token) throws Exception {
+        String decrypt = jwt.decrypt(token);
         EmpleadoEntity empleado = objectMapper.readValue(decrypt, EmpleadoEntity.class);
         return jwt.encrypt(objectMapper.writeValueAsString(empleadoService.validarAcceso(empleado.getUsuarioAcceso(), empleado.getClaveAcceso())));
     }
-
 
 }

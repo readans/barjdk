@@ -32,7 +32,9 @@ public class PagoController {
     private final Logger log = LoggerFactory.getLogger(EmpleadoController.class);
 
     @GetMapping(path = "/consultar/{id}")
-    public PagoEntity consultarPorId(@PathVariable(name = "id") Integer pkPagoId) { return pagoService.consultarPorId(pkPagoId); }
+    public String consultarPorId(@PathVariable(name = "id") Integer pkPagoId) throws Exception {
+        return jwt.encrypt(objectMapper.writeValueAsString(pagoService.consultarPorId(pkPagoId)));
+    }
 
     @GetMapping(path = "/consultarTodos")
     public String consultarTodos() throws Exception {

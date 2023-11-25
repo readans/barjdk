@@ -15,6 +15,7 @@ import org.barjdk.implement.ProductoImplement;
 import org.barjdk.services.ProductoService;
 import org.barjdk.utils.cipher.Jwt;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.source.MutuallyExclusiveConfigurationPropertiesException;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -42,17 +43,19 @@ public class ProductoController {
     }
 
     @GetMapping("/consultar/{id}")
-    public ProductoEntity consultarPorId(@PathVariable(name = "id") Integer pkProductoId) {
-        return productoService.consultarPorId(pkProductoId);
+    public String consultarPorId(@PathVariable(name = "id") Integer pkProductoId) throws Exception {
+        return jwt.encrypt(objectMapper.writeValueAsString(productoService.consultarPorId(pkProductoId)));
     }
 
     @RequestMapping(path = "/guardar", method = { RequestMethod.POST, RequestMethod.PUT })
-    public ProductoEntity guardar(@RequestBody ProductoEntity producto) {
-        return productoService.guardar(producto);
+    public String guardar(@RequestBody String token) throws Exception {
+        ProductoEntity producto = objectMapper.readValue(jwt.decrypt(token), ProductoEntity.class);
+        return jwt.encrypt(objectMapper.writeValueAsString(productoService.guardar(producto)));
     }
 
     @DeleteMapping("/eliminar")
-    public void eliminar(@RequestBody ProductoEntity producto) {
+    public void eliminar(@RequestBody String token) throws Exception {
+        ProductoEntity producto = objectMapper.readValue(jwt.decrypt(token), ProductoEntity.class);
         productoService.eliminar(producto);
     }
 

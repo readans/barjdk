@@ -35,7 +35,9 @@ public class MesaController {
     }
 
     @GetMapping("/consultar/{id}")
-    public MesaEntity consultarPorId(@PathVariable(name = "id") Integer pkMesaId) {return mesaService.consultarPorId(pkMesaId);}
+    public String consultarPorId(@PathVariable(name = "id") Integer pkMesaId) throws Exception {
+        return jwt.encrypt(objectMapper.writeValueAsString(mesaService.consultarPorId(pkMesaId)));
+    }
 
     @RequestMapping(path = "/guardar", method = {RequestMethod.POST, RequestMethod.PUT})
     public String guardar(@RequestBody String token) throws Exception {
@@ -44,7 +46,8 @@ public class MesaController {
     }
 
     @DeleteMapping("/eliminar")
-    public void eliminar(@RequestBody MesaEntity mesa) {
+    public void eliminar(@RequestBody String token) throws Exception {
+        MesaEntity mesa = objectMapper.readValue(jwt.decrypt(token), MesaEntity.class);
         mesaService.eliminar(mesa);
     }
 
