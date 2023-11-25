@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { Navigate } from "react-router-dom";
 import Modal from "../components/Modal";
 import Alert from "../components/Alert";
+import { decrypt, encrypt } from "../services/cipher";
 
 export default function Login({ isAuthenticated, onLogin }) {
   const username = useRef();
@@ -10,32 +11,20 @@ export default function Login({ isAuthenticated, onLogin }) {
 
   const [error, setError] = useState(false);
 
-  const getPermissions = (pkRolId) => {
-    switch (pkRolId) {
-      case 1:
-        return ["orders", "payments"];
-      case 2:
-        return ["orders"];
-      case 3:
-        return ["payments"];
-    }
-  };
-
-  const authUser = (username, password) => {
+  const authUser = async (username, password) => {
+    const body = await encrypt({
+      usuarioAcceso: username,
+      claveAcceso: password,
+    });
     fetch("http://localhost:8080/empleado/validar", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        usuarioAcceso: username,
-        claveAcceso: password,
-      }),
+      body: body,
     })
-      .then((res) => res.json())
+      .then((res) => res.text())
       .then((data) => {
-        data.error == undefined
-          ? onLogin({ ...data, permissions: getPermissions(data.rol.pkRolId) })
+        const decrypted = decrypt(data);
+        decrypted.pkEmpleadoId !== undefined
+          ? onLogin(decrypted)
           : setError(true);
       })
       .catch((e) => setError(true));
@@ -60,7 +49,7 @@ export default function Login({ isAuthenticated, onLogin }) {
           {modal.type == "help" ? (
             <h1>Hello, world!</h1>
           ) : modal.type == "password" ? (
-            <div className="grid place-items-center h-full">
+            <div className="grid place-items-center h-[400px]">
               <div className="flex flex-col items-center gap-y-3 w-6/12">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -114,7 +103,7 @@ export default function Login({ isAuthenticated, onLogin }) {
           <div className="w-1/2 flex justify-center pt-28 z-10">
             <div className="w-full max-w-[365px] flex flex-col items-center">
               <h1 className="font-bold text-2xl leading-8">LOGIN</h1>
-              <p className="leading-8 mb-2">Lorem ipsum dolor sit amet.</p>
+              <p className="leading-8 mb-2">Accede a tu portal</p>
               <form onSubmit={(e) => e.preventDefault()} className="w-full">
                 <div className="bg-neutral-100 h-12 w-full rounded-2xl px-3 flex items-center gap-x-2 mb-4">
                   <img
@@ -174,7 +163,7 @@ export default function Login({ isAuthenticated, onLogin }) {
             />
             <div className="bg-glass w-6/12 h-[380px] bg-white/20 border-white/20 border flex items-end justify-end rounded-2xl backdrop-blur-2xl relative">
               <h2 className="absolute top-0 left-0 mt-2 ml-4 text-[40px] w-4/12 font-bold text-white">
-                ¡Hey there!
+                ¡Hola, ahí!
               </h2>
               <div
                 className="absolute bottom-0 left-0 h-[42px] aspect-square rounded-full bg-white grid place-items-center -ml-[21px] cursor-pointer mb-10"

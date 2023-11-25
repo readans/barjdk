@@ -1,18 +1,14 @@
-import jwt from 'jsonwebtoken';
-import fs from 'fs';
+import * as jose from 'jose'
 
-const secretKey = fs.readFileSync('../keys/secret.key');
+const secret = new TextEncoder().encode(
+  'OTzANlyFPH+6wcBTiasNRbeqURc9zTsOX1HlocARCOk=',
+)
 
 export function decrypt(token) {
-  return jwt.verify(token, secretKey);
+  return jose.decodeJwt(token)
 }
 
-export function encrypt(json) {
-  return jwt.sign(JSON.stringify(json), secretKey)
+export async function encrypt(json) {
+  const jwt = await new jose.SignJWT(json).setProtectedHeader({ "alg": "HS256" }).sign(secret);
+  return jwt;
 }
-
-const jwtToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiZHlsYW4ifQ.ec2vuTDG4hDlAIdqU8JAsPJc3vj7p_rD3OQ2LGEb-TI"
-const decrypted = decrypt(jwtToken);
-
-console.log(decrypted);
-console.log(encrypt({ iss: 'auth0' }))

@@ -39,6 +39,16 @@ create table pedido (
   constraint fk_mesa_id foreign key (fk_mesa_id) references mesa(pk_mesa_id)
 );
 
+DELIMITER //
+CREATE TRIGGER after_insert_pedido
+AFTER INSERT ON pedido
+FOR EACH ROW
+BEGIN
+    UPDATE mesa SET estado = 2 WHERE pk_mesa_id = NEW.fk_mesa_id;
+END;
+//
+DELIMITER ;
+
 -- Crear la tabla PAGO
 create table pago (
   pk_pago_id int auto_increment primary key,
@@ -73,8 +83,7 @@ BEGIN
     UPDATE producto SET cantidad = cantidad - NEW.cantidad WHERE pk_producto_id = NEW.fk_producto_id;
 END;
 //
-DELIMITER ;after_insert_detalle_pedido
-
+DELIMITER ;
 
 -- Crear la tabla PERMISO
 create table permiso (

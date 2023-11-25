@@ -13,7 +13,7 @@ function Modal({ hideModal, children }) {
       ref={backContent}
       onClick={(e) => handleClick(e)}
     >
-      <div className="w-6/12 bg-gray-50 rounded-2xl h-[400px] relative animate-slideDown">
+      <div className="w-6/12 bg-gray-50 rounded-2xl min-h-[400px] relative animate-slideDown">
         <button
           onClick={(e) => hideModal()}
           className="absolute w-8 cursor-pointer right-0 top-0 mr-2 mt-2 text-gray-800"

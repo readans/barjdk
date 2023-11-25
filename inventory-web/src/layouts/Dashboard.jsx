@@ -1,6 +1,24 @@
 import { NavLink, Outlet } from "react-router-dom";
+import { useEffect, useState } from "react";
+import {
+  useProductoStore,
+  useMesaStore,
+  usePedidoStore,
+  usePagoStore,
+} from "../store/store.js";
 
 function Dashboard({ onLogout, user }) {
+  const { getProductos } = useProductoStore();
+  const { getMesas } = useMesaStore();
+  const { getPedidos } = usePedidoStore();
+  const { getPagos } = usePagoStore();
+  useEffect(() => {
+    getProductos();
+    getMesas();
+    getPedidos();
+    getPagos();
+  }, []);
+
   return (
     <>
       <nav className="fixed w-[220px] top-0 left-0 h-full bg-blue-900 text-white flex flex-col">
@@ -9,13 +27,7 @@ function Dashboard({ onLogout, user }) {
             <img src="/src/assets/icons/user.png" alt="" className="h-12" />
           </div>
           <h1 className="mt-2 text-xl">{`${user.nombre} ${user.apellido}`}</h1>
-          <h4 className="text-sm">
-            {user.fkRolId == 1
-              ? "Administrador"
-              : user.fkRolId == 2
-              ? "Mesero"
-              : "Cajero"}
-          </h4>
+          <h4 className="text-sm">{user.rol.nombre}</h4>
         </div>
         <ul className="flex-grow flex flex-col gap-y-1 px-1 select-none">
           <li>
@@ -44,7 +56,9 @@ function Dashboard({ onLogout, user }) {
               Home
             </NavLink>
           </li>
-          {user.permissions.includes("orders") && (
+          {user.rol.permisos.some(
+            (permiso) => permiso.permiso.pkPermisoId === 1
+          ) && (
             <li>
               <NavLink
                 to={"/orders"}
@@ -72,7 +86,9 @@ function Dashboard({ onLogout, user }) {
               </NavLink>
             </li>
           )}
-          {user.permissions.includes("payments") && (
+          {user.rol.permisos.some(
+            (permiso) => permiso.permiso.pkPermisoId === 2
+          ) && (
             <li>
               <NavLink
                 to={"/payments"}

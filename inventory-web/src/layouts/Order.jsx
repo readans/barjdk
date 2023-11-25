@@ -1,12 +1,22 @@
 import { useEffect, useState } from "react";
 import Modal from "../components/Modal";
-import { useProductoStore, useMesaStore, usePedidoStore } from "../store/store";
+import {
+  useProductoStore,
+  useMesaStore,
+  usePedidoStore,
+  useUserStore,
+} from "../store/store";
 import Count from "../components/Count";
+import { encrypt } from "../services/cipher";
 
 function Order() {
+  const user = useUserStore((state) => state.user);
   const pedidos = usePedidoStore((state) => state.pedidos);
   const productos = useProductoStore((state) => state.productos);
   const mesas = useMesaStore((state) => state.mesas);
+  const { getProductos } = useProductoStore();
+  const { getMesas } = useMesaStore();
+  const { getPedidos } = usePedidoStore();
 
   const [productosDisp, setProductosDisp] = useState([]);
   useEffect(() => {
@@ -22,34 +32,44 @@ function Order() {
 
   const [mesaSel, setMesaSel] = useState(null);
 
-  const createOrder = () => {
+  const handleCreateOrder = () => {
+    getPedidos();
+    getProductos();
+    getMesas();
+  };
+
+  const createOrder = async () => {
     const productsToOrder = productos
       .filter((product) => product.solicitar > 0)
-      .map(({ descripcion }) => {
-        return {
-          descripcion,
-        };
-      });
+      .map(({ pkProductoId, solicitar }) => ({
+        fkProductoId: pkProductoId,
+        cantidad: solicitar,
+      }));
     if (productsToOrder.length == 0 || mesaSel === null) return;
-    console.log(productsToOrder);
-    alert("Puede ordenar");
-    // fetch("", {
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body: JSON.stringify()
-    // })
-    //   .then(res => res.json())
-    //   .then(data => console.log(data))
+
+    const body = await encrypt({
+      fkEmpleadoId: user.pkEmpleadoId,
+      fkMesaId: mesaSel.pkMesaId,
+      detalles: productsToOrder,
+    });
+    fetch("http://localhost:8080/pedido/generar", {
+      method: "POST",
+      body: body,
+    })
+      .then((res) => res.text())
+      .then((data) => {
+        handleCreateOrder();
+        setShowModal(false);
+      });
   };
 
   return (
     <>
       {showModal && (
         <Modal hideModal={() => setShowModal(false)}>
-          <div className="flex px-3 pt-8 pb-2 flex-col gap-y-2 h-full">
+          <div className="flex px-3 pt-8 pb-2 flex-col gap-y-2 max-h-[550px]">
             <div className="">
-              <h2 className="text-xl inline-block text-blue-900 font-semibold border-blue-900 border-b-2 mb-4 leading-relaxed">
+              <h2 className="text-xl inline-block text-blue-900 font-semibold border-blue-900 border-b-2 mb-4 ml-4 leading-relaxed">
                 Crear Pedido
               </h2>
             </div>
@@ -80,7 +100,7 @@ function Order() {
                           <path
                             strokeLinecap="round"
                             strokeLinejoin="round"
-                            d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"
+                            d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"
                           />
                         </svg>
                       </div>
@@ -146,7 +166,7 @@ function Order() {
             </div>
             <div className="flex justify-end">
               <button
-                className="bg-blue-900 text-white inline-flex gap-x-2 rounded-full py-3 px-5"
+                className="bg-blue-900 text-white inline-flex gap-x-2 rounded-full py-2 px-3 text-md"
                 onClick={() => createOrder()}
               >
                 Crear
@@ -185,7 +205,7 @@ function Order() {
           <div className="grid grid-cols-2 gap-2 mt-4">
             {pedidos.map((pedido) => (
               <div
-                className="flex p-3 gap-x-2 items-center rounded-lg shadow-sm bg-white"
+                className="flex p-3 gap-x-3 items-center rounded-lg shadow-sm bg-white"
                 key={`ped${pedido.pkPedidoId}`}
               >
                 <div className="h-20 aspect-square bg-blue-900 rounded-md grid place-items-center text-white">
@@ -200,7 +220,7 @@ function Order() {
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"
+                      d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
                     />
                   </svg>
                 </div>
@@ -210,9 +230,19 @@ function Order() {
                       {pedido.pkPedidoId}
                     </h1>
                   </div>
-                  <div className="flex justify-between">
-                    <h3>Mesa {pedido.fkMesaId}</h3>
-                    <h3>Empleado: {pedido.fkEmpleadoId}</h3>
+                  <div className="flex gap-x-2">
+                    <span
+                      className="bg-orange-600
+                        px-4 py-1 text-white rounded-full text-sm"
+                    >
+                      Mesa: {pedido.fkMesaId}
+                    </span>
+                    <span
+                      className="bg-green-600
+                        px-4 py-1 text-white rounded-full text-sm"
+                    >
+                      Empleado: {pedido.fkEmpleadoId}
+                    </span>
                   </div>
                 </div>
               </div>

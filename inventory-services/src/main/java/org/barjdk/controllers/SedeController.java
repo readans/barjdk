@@ -1,7 +1,11 @@
 package org.barjdk.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.barjdk.entity.SedeEntity;
 import org.barjdk.services.SedeService;
+import org.barjdk.utils.cipher.Jwt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,10 +18,17 @@ public class SedeController {
 
     @Autowired
     SedeService sedeService;
+    @Autowired
+    Jwt jwt;
+
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @GetMapping("/consultarTodos")
-    public List<SedeEntity> consultarTodos(){
-        return sedeService.consultarTodos();
+    public String consultarTodos(){
+        ObjectNode jsonNode = objectMapper.createObjectNode();
+        ArrayNode productosArrayNode = objectMapper.valueToTree(sedeService.consultarTodos());
+        jsonNode.set("sedes", productosArrayNode);
+        return jwt.encrypt(jsonNode.toString());
     }
 
     @GetMapping("/consultar/{id}")

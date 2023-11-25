@@ -1,6 +1,8 @@
 package org.barjdk.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.barjdk.entity.EmpleadoEntity;
 import org.barjdk.entity.PermisosEmpleadoEntity;
 import org.barjdk.services.EmpleadoService;
@@ -19,7 +21,6 @@ public class EmpleadoController {
 
     @Autowired
     EmpleadoService empleadoService;
-
     @Autowired
     Jwt jwt;
 
@@ -31,7 +32,12 @@ public class EmpleadoController {
     public EmpleadoEntity consultarPorId(@PathVariable(name = "id") Integer pkEmpleadoId) { return empleadoService.consultarPorId(pkEmpleadoId); }
 
     @GetMapping(path = "/consultarTodos")
-    public List<EmpleadoEntity> consultarTodos() { return this.empleadoService.consultarTodos();}
+    public String consultarTodos() {
+        ObjectNode jsonNode = objectMapper.createObjectNode();
+        ArrayNode arrayNode = objectMapper.valueToTree(empleadoService.consultarTodos());
+        jsonNode.set("empleados", arrayNode);
+        return jwt.encrypt(jsonNode.toString());
+    }
 
     @RequestMapping(path = "/guardar", method = { RequestMethod.POST, RequestMethod.PUT })
     public String guardar(@RequestBody String reqBody) throws Exception {
@@ -49,8 +55,10 @@ public class EmpleadoController {
     }
 
     @PostMapping(path = "/validar")
-    public PermisosEmpleadoEntity validar(@RequestBody EmpleadoEntity empleado) {
-        return empleadoService.validarAcceso(empleado.getUsuarioAcceso(), empleado.getClaveAcceso());
+    public String validar(@RequestBody String reqBody) throws Exception {
+        String decrypt = jwt.decrypt(reqBody);
+        EmpleadoEntity empleado = objectMapper.readValue(decrypt, EmpleadoEntity.class);
+        return jwt.encrypt(objectMapper.writeValueAsString(empleadoService.validarAcceso(empleado.getUsuarioAcceso(), empleado.getClaveAcceso())));
     }
 
 

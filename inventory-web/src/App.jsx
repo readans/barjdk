@@ -12,40 +12,18 @@ import Home from "./layouts/Home";
 import Dashboard from "./layouts/Dashboard";
 import Order from "./layouts/Order";
 import Payments from "./layouts/Payments";
-import {
-  useProductoStore,
-  useMesaStore,
-  usePedidoStore,
-  usePagoStore,
-} from "./store/store";
+import { useUserStore } from "./store/store";
 
 function ProtectedRoute({ isAllowed, children, redirectTo }) {
   return !isAllowed ? <Navigate to={redirectTo} /> : children ?? <Outlet />;
 }
 
 function App() {
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
+  const { setUser } = useUserStore();
+  const user = useUserStore((state) => state.user);
 
-  const { getProductos } = useProductoStore();
-  const { getMesas } = useMesaStore();
-  const { getPedidos } = usePedidoStore();
-  const { getPagos } = usePagoStore();
-  useEffect(() => {
-    getProductos();
-    getMesas();
-    getPedidos();
-    getPagos();
-  }, []);
-
-  const login = (user) => {
-    localStorage.setItem("user", JSON.stringify(user));
-    setUser(user);
-  };
-
-  const logout = () => {
-    localStorage.removeItem("user");
-    setUser(null);
-  };
+  const login = (user) => setUser(user);
+  const logout = () => setUser(null);
 
   return (
     <BrowserRouter>
@@ -64,7 +42,12 @@ function App() {
               path="orders"
               element={
                 <ProtectedRoute
-                  isAllowed={!!user && user.permissions.includes("orders")}
+                  isAllowed={
+                    !!user &&
+                    user.rol.permisos.some(
+                      (permiso) => permiso.permiso.pkPermisoId === 1
+                    )
+                  }
                   redirectTo={"/"}
                 >
                   <Order />
@@ -75,7 +58,12 @@ function App() {
               path="payments"
               element={
                 <ProtectedRoute
-                  isAllowed={!!user && user.permissions.includes("payments")}
+                  isAllowed={
+                    !!user &&
+                    user.rol.permisos.some(
+                      (permiso) => permiso.permiso.pkPermisoId === 2
+                    )
+                  }
                   redirectTo={"/"}
                 >
                   <Payments />
